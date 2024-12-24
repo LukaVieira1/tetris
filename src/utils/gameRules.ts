@@ -111,6 +111,23 @@ export const movePiece = (
   return piecePosition;
 };
 
+export const rotatePiece = (
+  piecePosition: { x: number; y: number },
+  currentPiece: number[][],
+  board: number[][]
+) => {
+  const rotatedPiece = rotateMatrix(currentPiece);
+
+  if (!checkCollision(rotatedPiece, piecePosition, board)) {
+    return rotatedPiece;
+  }
+  return currentPiece;
+};
+
+const rotateMatrix = (matrix: number[][]) => {
+  return matrix[0].map((_, index) => matrix.map((row) => row[index]).reverse());
+};
+
 export const dropPiece = (
   piecePosition: { x: number; y: number },
   currentPiece: number[][],
