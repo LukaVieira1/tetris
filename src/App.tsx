@@ -17,7 +17,6 @@ function App() {
     const timer = setInterval(() => {
       const newPosition = { x: piecePosition.x, y: piecePosition.y + 1 };
       if (!checkCollision(currentPiece, newPosition, board)) {
-        console.log("newPosition", newPosition);
         setPiecePosition((prevPosition) => ({
           ...prevPosition,
           y: prevPosition.y + 1,
@@ -52,7 +51,11 @@ function App() {
 
   return (
     <div>
-      <GameBoard board={board} />
+      <GameBoard
+        board={board}
+        currentPiece={currentPiece}
+        piecePosition={piecePosition}
+      />
     </div>
   );
 }
