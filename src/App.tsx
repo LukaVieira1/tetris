@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import {
   checkCollision,
+  clearLines,
   createBoard,
+  dropPiece,
   fixPieceToBoard,
   getRandomPiece,
   movePiece,
+  rotatePiece,
 } from "./utils/gameRules";
 import GameBoard from "./components/GameBoard";
 
@@ -26,22 +29,34 @@ function App() {
         setBoard(newBoard);
         setCurrentPiece(getRandomPiece());
         setPiecePosition({ x: 4, y: 0 });
+
+        const { board: clearedBoard, linesCleared } = clearLines(newBoard);
+        if (linesCleared > 0) {
+          setBoard(clearedBoard);
+        }
       }
-    }, 500); // Velocidade de descida (1 segundo)
+    }, 500);
 
     return () => clearInterval(timer);
   }, [piecePosition, board, currentPiece]);
 
+  useEffect(() => {}, [board]);
+
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
+      console.log(event.key);
       if (event.key === "ArrowLeft") {
-        setPiecePosition(movePiece(-1, piecePosition, currentPiece, board));
+        setPiecePosition(
+          movePiece([-1, 0], piecePosition, currentPiece, board)
+        );
       } else if (event.key === "ArrowRight") {
-        setPiecePosition(movePiece(1, piecePosition, currentPiece, board));
+        setPiecePosition(movePiece([1, 0], piecePosition, currentPiece, board));
       } else if (event.key === "ArrowDown") {
-        // dropPiece();
+        setPiecePosition(movePiece([0, 1], piecePosition, currentPiece, board));
+      } else if (event.key === " ") {
+        setPiecePosition(dropPiece(piecePosition, currentPiece, board));
       } else if (event.key === "ArrowUp") {
-        // rotatePiece();
+        setCurrentPiece(rotatePiece(piecePosition, currentPiece, board));
       }
     };
 
