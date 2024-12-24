@@ -110,3 +110,26 @@ export const movePiece = (
   }
   return piecePosition;
 };
+
+export const mergePieceWithBoard = (
+  board: number[][],
+  piece: number[][],
+  position: { x: number; y: number }
+) => {
+  const newBoard = board.map((row) => [...row]);
+
+  piece.forEach((row, y) => {
+    row.forEach((value, x) => {
+      if (value !== 0) {
+        const newX = position.x + x;
+        const newY = position.y + y;
+
+        if (newBoard[newY] && newBoard[newY][newX] !== undefined) {
+          newBoard[newY][newX] = value;
+        }
+      }
+    });
+  });
+
+  return newBoard;
+};
