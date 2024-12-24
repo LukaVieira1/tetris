@@ -1,7 +1,11 @@
 function App() {
   return (
     <>
-      <span>Hello World</span>
+      <span className="text-2xl font-bold text-red-500">Hello World</span>
+
+      <span className="text-2xl font-bold text-red-500">Hello World</span>
+
+      <span className="text-2xl font-bold text-red-500">Hello World</span>
     </>
   );
 }
