@@ -133,3 +133,14 @@ export const mergePieceWithBoard = (
 
   return newBoard;
 };
+
+export const clearLines = (board: number[][]) => {
+  const clearedBoard = board.filter((row) => row.some((cell) => cell === 0));
+  const linesCleared = board.length - clearedBoard.length;
+
+  while (clearedBoard.length < board.length) {
+    clearedBoard.unshift(new Array(board[0].length).fill(0));
+  }
+
+  return { board: clearedBoard, linesCleared };
+};
