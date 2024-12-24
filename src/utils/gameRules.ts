@@ -95,20 +95,40 @@ export const fixPieceToBoard = (
 };
 
 export const movePiece = (
-  direction: number,
+  direction: number[],
   piecePosition: { x: number; y: number },
   currentPiece: number[][],
   board: number[][]
 ) => {
   const newPosition = {
-    x: piecePosition.x + direction,
-    y: piecePosition.y,
+    x: piecePosition.x + direction[0],
+    y: piecePosition.y + direction[1],
   };
 
   if (!checkCollision(currentPiece, newPosition, board)) {
     return newPosition;
   }
   return piecePosition;
+};
+
+export const dropPiece = (
+  piecePosition: { x: number; y: number },
+  currentPiece: number[][],
+  board: number[][]
+) => {
+  const newPosition = { ...piecePosition };
+
+  while (
+    !checkCollision(
+      currentPiece,
+      { ...newPosition, y: newPosition.y + 1 },
+      board
+    )
+  ) {
+    newPosition.y += 1;
+  }
+
+  return newPosition;
 };
 
 export const mergePieceWithBoard = (
