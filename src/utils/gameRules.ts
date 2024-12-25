@@ -185,3 +185,13 @@ export const clearLines = (board: number[][]) => {
 
   return { board: clearedBoard, linesCleared };
 };
+
+export const resetGame = () => {
+  return {
+    board: createBoard(10, 20),
+    currentPiece: getRandomPiece(),
+    piecePosition: { x: 4, y: 0 },
+    score: 0,
+    isGameOver: false,
+  };
+};

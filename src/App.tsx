@@ -8,9 +8,11 @@ import {
   getRandomPiece,
   movePiece,
   rotatePiece,
+  resetGame,
 } from "./utils/gameRules";
 import GameBoard from "./components/GameBoard";
 import { GameOverModal } from "./components/GameOverModal";
+
 function App() {
   const [board, setBoard] = useState(createBoard(10, 20));
   const [currentPiece, setCurrentPiece] = useState(getRandomPiece());
@@ -72,6 +74,14 @@ function App() {
     return () => window.removeEventListener("keydown", handleKeyPress);
   }, [piecePosition, board, currentPiece, isGameOver]);
 
+  const handleReset = () => {
+    const { board, currentPiece, piecePosition, isGameOver } = resetGame();
+    setBoard(board);
+    setCurrentPiece(currentPiece);
+    setPiecePosition(piecePosition);
+    setIsGameOver(isGameOver);
+  };
+
   return (
     <div>
       <GameBoard
@@ -79,7 +89,7 @@ function App() {
         currentPiece={currentPiece}
         piecePosition={piecePosition}
       />
-      {isGameOver && <GameOverModal />}
+      {isGameOver && <GameOverModal onReset={handleReset} />}
     </div>
   );
 }

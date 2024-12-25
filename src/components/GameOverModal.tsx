@@ -1,4 +1,8 @@
-export const GameOverModal = () => {
+export const GameOverModal = ({ onReset }: { onReset: () => void }) => {
+  const handleReset = () => {
+    onReset();
+  };
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
       <div className="bg-white p-8 rounded-lg shadow-lg text-center">
@@ -6,7 +10,7 @@ export const GameOverModal = () => {
         <p className="text-gray-700 mb-6">Sua partida acabou!</p>
         <button
           className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
-          onClick={() => window.location.reload()}
+          onClick={handleReset}
         >
           Jogar Novamente
         </button>
