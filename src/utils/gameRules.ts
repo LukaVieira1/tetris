@@ -82,6 +82,10 @@ export const fixPieceToBoard = (
   piece: number[][],
   position: { x: number; y: number }
 ) => {
+  if (position.y === 0) {
+    return { board: board, isGameOver: true };
+  }
+
   const newBoard = [...board];
   piece.forEach((row, y) => {
     row.forEach((value, x) => {
@@ -91,7 +95,7 @@ export const fixPieceToBoard = (
     });
   });
 
-  return newBoard;
+  return { board: newBoard, isGameOver: false };
 };
 
 export const movePiece = (
@@ -180,4 +184,14 @@ export const clearLines = (board: number[][]) => {
   }
 
   return { board: clearedBoard, linesCleared };
+};
+
+export const resetGame = () => {
+  return {
+    board: createBoard(10, 20),
+    currentPiece: getRandomPiece(),
+    piecePosition: { x: 4, y: 0 },
+    score: 0,
+    isGameOver: false,
+  };
 };
