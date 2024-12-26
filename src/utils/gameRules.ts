@@ -5,7 +5,14 @@ export const createBoard = (boardWidth: number, boardHeight: number) => {
 export const getRandomPiece = () => {
   const keys = Object.keys(SHAPES) as Array<keyof typeof SHAPES>;
   const randomKey = keys[Math.floor(Math.random() * keys.length)];
-  return SHAPES[randomKey];
+  let piece = SHAPES[randomKey];
+
+  const rotations = Math.floor(Math.random() * 4);
+  for (let i = 0; i < rotations; i++) {
+    piece = rotateMatrix(piece);
+  }
+
+  return piece;
 };
 
 const SHAPES = {
