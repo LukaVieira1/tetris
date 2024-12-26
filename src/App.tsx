@@ -81,7 +81,7 @@ function App() {
   };
 
   return (
-    <div className="w-full h-screen bg-gray-300">
+    <div className="w-full h-screen">
       <div className="flex justify-center items-center h-full">
         <GameBoard
           board={board}

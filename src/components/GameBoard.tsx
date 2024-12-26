@@ -15,7 +15,7 @@ const GameBoard = ({ board, currentPiece, piecePosition }: IGameBoard) => {
         row.map((cell, x) => (
           <div
             key={`${x}-${y}`}
-            className={`${cell !== 0 ? "bg-blue-500" : "bg-gray-300"}`}
+            className={`size-11 ${cell !== 0 ? "bg-blue-500" : "bg-gray-300"}`}
           ></div>
         ))
       )}
