@@ -50,8 +50,6 @@ function App() {
     return () => clearInterval(timer);
   }, [piecePosition, board, currentPiece, isGameOver]);
 
-  useEffect(() => {}, [board]);
-
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
       if (isGameOver) return;
@@ -83,12 +81,14 @@ function App() {
   };
 
   return (
-    <div>
-      <GameBoard
-        board={board}
-        currentPiece={currentPiece}
-        piecePosition={piecePosition}
-      />
+    <div className="w-full h-screen">
+      <div className="flex justify-center items-center h-full">
+        <GameBoard
+          board={board}
+          currentPiece={currentPiece}
+          piecePosition={piecePosition}
+        />
+      </div>
       {isGameOver && <GameOverModal onReset={handleReset} />}
     </div>
   );

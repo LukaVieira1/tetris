@@ -25,11 +25,17 @@
 - Component-based architecture
 - Game state management with React hooks
 
-# Changelog
-
 ## [0.2.0] - 2024-12-25
 
 ### Added
 
 - Game over modal
 - Reset game button
+
+## [0.2.1] - 2024-12-26
+
+### Fixed
+
+- Fixed UI bugs
+- Fixex getRandomPiece function, now it returns a random rotation of the piece
+- Fixed the game over modal
