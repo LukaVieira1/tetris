@@ -37,5 +37,8 @@
 ### Fixed
 
 - Fixed UI bugs
+  - Fixes game modal position
+  - Fixes game board size
+  - Fixes game board position
+  - Fixes pieces separation
 - Fixex getRandomPiece function, now it returns a random rotation of the piece
-- Fixed the game over modal
