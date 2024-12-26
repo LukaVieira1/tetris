@@ -10,12 +10,12 @@ const GameBoard = ({ board, currentPiece, piecePosition }: IGameBoard) => {
   const displayBoard = mergePieceWithBoard(board, currentPiece, piecePosition);
 
   return (
-    <div className="grid grid-cols-10 grid-rows-20">
+    <div className="grid grid-cols-[repeat(10,minmax(0,45px))] grid-rows-[repeat(20,minmax(0,45px))] border-2 border-black">
       {displayBoard.map((row, y) =>
         row.map((cell, x) => (
           <div
             key={`${x}-${y}`}
-            className={`h-6 ${cell !== 0 ? "bg-blue-500" : "bg-gray-300"}`}
+            className={`${cell !== 0 ? "bg-blue-500" : "bg-gray-300"}`}
           ></div>
         ))
       )}
