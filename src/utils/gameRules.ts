@@ -206,3 +206,16 @@ export const resetGame = () => {
 export const calculateScore = (linesCleared: number) => {
   return linesCleared * 100;
 };
+
+export const updateLevel = (
+  linesCleared: number,
+  level: number,
+  speed: number
+) => {
+  const linesPerLevel = 10;
+  if (linesCleared >= level * linesPerLevel) {
+    level += 1;
+    speed = Math.max(200, speed - 50);
+  }
+  return { level, speed };
+};
