@@ -220,6 +220,35 @@ export const calculateScore = (linesCleared: number) => {
   return score;
 };
 
+export const saveScoreBoard = (score: number) => {
+  const scores = JSON.parse(localStorage.getItem("scores") || "[]") as number[];
+
+  if (scores.length < 3 || score > Math.min(...scores)) {
+    if (scores.length < 3 && !scores.includes(score)) {
+      scores.push(score);
+    } else if (
+      scores.length === 3 &&
+      score > Math.min(...scores) &&
+      !scores.includes(score)
+    ) {
+      scores[scores.length - 1] = score;
+    }
+  }
+
+  scores.sort((a, b) => b - a);
+
+  while (scores.length < 3) {
+    scores.push(0);
+  }
+
+  localStorage.setItem("scores", JSON.stringify(scores));
+};
+
+export const getScoreBoard = () => {
+  const scores = JSON.parse(localStorage.getItem("scores") || "[]") as number[];
+  return scores;
+};
+
 export const updateLevel = (
   linesCleared: number,
   level: number,

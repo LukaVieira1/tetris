@@ -14,6 +14,7 @@ import {
   resetGame,
   calculateScore,
   updateLevel,
+  saveScoreBoard,
 } from "./utils/gameRules";
 
 // Components
@@ -52,6 +53,7 @@ function App() {
         setBoard(newBoard);
         if (isGameOver) {
           setIsGameOver(true);
+          saveScoreBoard(score);
         }
         setCurrentPiece(getRandomPiece());
         setPiecePosition({ x: 4, y: 0 });
