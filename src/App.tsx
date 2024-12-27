@@ -63,13 +63,13 @@ function App() {
           setBoard(clearedBoard);
           setScore(score + calculateScore(newLinesCleared));
           const { level: newLevel, speed: newSpeed } = updateLevel(
-            newLinesCleared,
+            linesCleared + newLinesCleared,
             level,
             speed
           );
           setLevel(newLevel);
           setSpeed(newSpeed);
-          setLinesCleared(newLinesCleared);
+          setLinesCleared(linesCleared + newLinesCleared);
         }
       }
     }, speed);
