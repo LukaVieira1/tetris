@@ -204,7 +204,20 @@ export const resetGame = () => {
 };
 
 export const calculateScore = (linesCleared: number) => {
-  return linesCleared * 100;
+  const pointsPerLine = {
+    1: 100,
+    2: 300,
+    3: 500,
+    4: 800,
+  };
+
+  let score = pointsPerLine[linesCleared as keyof typeof pointsPerLine] || 0;
+
+  if (linesCleared > 4) {
+    score += (linesCleared - 4) * 100;
+  }
+
+  return score;
 };
 
 export const updateLevel = (
