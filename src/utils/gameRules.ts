@@ -202,3 +202,7 @@ export const resetGame = () => {
     isGameOver: false,
   };
 };
+
+export const calculateScore = (linesCleared: number) => {
+  return linesCleared * 100;
+};

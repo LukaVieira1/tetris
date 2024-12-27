@@ -9,6 +9,7 @@ import {
   movePiece,
   rotatePiece,
   resetGame,
+  calculateScore,
 } from "./utils/gameRules";
 import GameBoard from "./components/GameBoard";
 import { GameOverModal } from "./components/GameOverModal";
@@ -18,6 +19,8 @@ function App() {
   const [currentPiece, setCurrentPiece] = useState(getRandomPiece());
   const [piecePosition, setPiecePosition] = useState({ x: 0, y: 4 });
   const [isGameOver, setIsGameOver] = useState(false);
+  const [score, setScore] = useState(0);
+
   useEffect(() => {
     if (isGameOver) return;
     const timer = setInterval(() => {
@@ -43,12 +46,13 @@ function App() {
         const { board: clearedBoard, linesCleared } = clearLines(newBoard);
         if (linesCleared > 0) {
           setBoard(clearedBoard);
+          setScore(score + calculateScore(linesCleared));
         }
       }
     }, 500);
 
     return () => clearInterval(timer);
-  }, [piecePosition, board, currentPiece, isGameOver]);
+  }, [piecePosition, board, currentPiece, isGameOver, score]);
 
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
@@ -78,11 +82,17 @@ function App() {
     setCurrentPiece(currentPiece);
     setPiecePosition(piecePosition);
     setIsGameOver(isGameOver);
+    setScore(0);
   };
 
   return (
-    <div className="w-full h-screen">
-      <div className="flex justify-center items-center h-full">
+    <div className="w-full h-screen overflow-hidden flex flex-col items-center gap-10">
+      <div className="px-4 py-2 text-2xl font-bold text-center border-2 border-black mt-11">
+        Score Board
+        <div className="text-4xl font-bold"> Atual: {score}</div>
+        <div className="text-4xl font-bold"> Melhor: {score}</div>
+      </div>
+      <div className="flex justify-center items-center">
         <GameBoard
           board={board}
           currentPiece={currentPiece}
