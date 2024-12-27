@@ -1,4 +1,7 @@
+// React
 import { useEffect, useState } from "react";
+
+// Utils
 import {
   checkCollision,
   clearLines,
@@ -10,16 +13,26 @@ import {
   rotatePiece,
   resetGame,
   calculateScore,
+  updateLevel,
 } from "./utils/gameRules";
+
+// Components
 import GameBoard from "./components/GameBoard";
 import { GameOverModal } from "./components/GameOverModal";
+import { GameLevel } from "./components/GameLevel";
 
 function App() {
+  // board state
   const [board, setBoard] = useState(createBoard(10, 20));
   const [currentPiece, setCurrentPiece] = useState(getRandomPiece());
   const [piecePosition, setPiecePosition] = useState({ x: 0, y: 4 });
+
+  // game state
   const [isGameOver, setIsGameOver] = useState(false);
   const [score, setScore] = useState(0);
+  const [level, setLevel] = useState(1);
+  const [speed, setSpeed] = useState(1000);
+  const [linesCleared, setLinesCleared] = useState(0);
 
   useEffect(() => {
     if (isGameOver) return;
@@ -43,16 +56,35 @@ function App() {
         setCurrentPiece(getRandomPiece());
         setPiecePosition({ x: 4, y: 0 });
 
-        const { board: clearedBoard, linesCleared } = clearLines(newBoard);
-        if (linesCleared > 0) {
+        const { board: clearedBoard, linesCleared: newLinesCleared } =
+          clearLines(newBoard);
+
+        if (newLinesCleared > 0) {
           setBoard(clearedBoard);
-          setScore(score + calculateScore(linesCleared));
+          setScore(score + calculateScore(newLinesCleared));
+          const { level: newLevel, speed: newSpeed } = updateLevel(
+            newLinesCleared,
+            level,
+            speed
+          );
+          setLevel(newLevel);
+          setSpeed(newSpeed);
+          setLinesCleared(newLinesCleared);
         }
       }
-    }, 500);
+    }, speed);
 
     return () => clearInterval(timer);
-  }, [piecePosition, board, currentPiece, isGameOver, score]);
+  }, [
+    piecePosition,
+    board,
+    currentPiece,
+    isGameOver,
+    score,
+    level,
+    speed,
+    linesCleared,
+  ]);
 
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
@@ -86,13 +118,11 @@ function App() {
   };
 
   return (
-    <div className="w-full h-screen overflow-hidden flex flex-col items-center gap-10">
-      <div className="px-4 py-2 text-2xl font-bold text-center border-2 border-black mt-11">
-        Score Board
-        <div className="text-4xl font-bold"> Atual: {score}</div>
-        <div className="text-4xl font-bold"> Melhor: {score}</div>
+    <div className="w-full h-screen overflow-hidden flex items-center gap-10 mx-auto justify-center pt-20">
+      <div className="flex flex-col items-center gap-10 justify-start h-full">
+        <GameLevel score={score} level={level} linesCleared={linesCleared} />
       </div>
-      <div className="flex justify-center items-center">
+      <div className="flex h-full items-start">
         <GameBoard
           board={board}
           currentPiece={currentPiece}
