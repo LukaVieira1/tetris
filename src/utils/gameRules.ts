@@ -202,3 +202,62 @@ export const resetGame = () => {
     isGameOver: false,
   };
 };
+
+export const calculateScore = (linesCleared: number) => {
+  const pointsPerLine = {
+    1: 100,
+    2: 300,
+    3: 500,
+    4: 800,
+  };
+
+  let score = pointsPerLine[linesCleared as keyof typeof pointsPerLine] || 0;
+
+  if (linesCleared > 4) {
+    score += (linesCleared - 4) * 100;
+  }
+
+  return score;
+};
+
+export const saveScoreBoard = (score: number) => {
+  const scores = JSON.parse(localStorage.getItem("scores") || "[]") as number[];
+
+  if (scores.length < 3 || score > Math.min(...scores)) {
+    if (scores.length < 3 && !scores.includes(score)) {
+      scores.push(score);
+    } else if (
+      scores.length === 3 &&
+      score > Math.min(...scores) &&
+      !scores.includes(score)
+    ) {
+      scores[scores.length - 1] = score;
+    }
+  }
+
+  scores.sort((a, b) => b - a);
+
+  while (scores.length < 3) {
+    scores.push(0);
+  }
+
+  localStorage.setItem("scores", JSON.stringify(scores));
+};
+
+export const getScoreBoard = () => {
+  const scores = JSON.parse(localStorage.getItem("scores") || "[]") as number[];
+  return scores;
+};
+
+export const updateLevel = (
+  linesCleared: number,
+  level: number,
+  speed: number
+) => {
+  const linesPerLevel = 5;
+  if (linesCleared >= level * linesPerLevel) {
+    level += 1;
+    speed = Math.max(100, speed - 100);
+  }
+  return { level, speed };
+};

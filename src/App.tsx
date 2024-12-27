@@ -1,4 +1,7 @@
+// React
 import { useEffect, useState } from "react";
+
+// Utils
 import {
   checkCollision,
   clearLines,
@@ -9,15 +12,30 @@ import {
   movePiece,
   rotatePiece,
   resetGame,
+  calculateScore,
+  updateLevel,
+  saveScoreBoard,
 } from "./utils/gameRules";
+
+// Components
 import GameBoard from "./components/GameBoard";
 import { GameOverModal } from "./components/GameOverModal";
+import { GameLevel } from "./components/GameLevel";
+import { ScoreBoard } from "./components/ScoreBoard";
 
 function App() {
+  // board state
   const [board, setBoard] = useState(createBoard(10, 20));
   const [currentPiece, setCurrentPiece] = useState(getRandomPiece());
   const [piecePosition, setPiecePosition] = useState({ x: 0, y: 4 });
+
+  // game state
   const [isGameOver, setIsGameOver] = useState(false);
+  const [score, setScore] = useState(0);
+  const [level, setLevel] = useState(1);
+  const [speed, setSpeed] = useState(1000);
+  const [linesCleared, setLinesCleared] = useState(0);
+
   useEffect(() => {
     if (isGameOver) return;
     const timer = setInterval(() => {
@@ -36,19 +54,40 @@ function App() {
         setBoard(newBoard);
         if (isGameOver) {
           setIsGameOver(true);
+          saveScoreBoard(score);
         }
         setCurrentPiece(getRandomPiece());
         setPiecePosition({ x: 4, y: 0 });
 
-        const { board: clearedBoard, linesCleared } = clearLines(newBoard);
-        if (linesCleared > 0) {
+        const { board: clearedBoard, linesCleared: newLinesCleared } =
+          clearLines(newBoard);
+
+        if (newLinesCleared > 0) {
           setBoard(clearedBoard);
+          setScore(score + calculateScore(newLinesCleared));
+          const { level: newLevel, speed: newSpeed } = updateLevel(
+            linesCleared + newLinesCleared,
+            level,
+            speed
+          );
+          setLevel(newLevel);
+          setSpeed(newSpeed);
+          setLinesCleared(linesCleared + newLinesCleared);
         }
       }
-    }, 500);
+    }, speed);
 
     return () => clearInterval(timer);
-  }, [piecePosition, board, currentPiece, isGameOver]);
+  }, [
+    piecePosition,
+    board,
+    currentPiece,
+    isGameOver,
+    score,
+    level,
+    speed,
+    linesCleared,
+  ]);
 
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
@@ -78,11 +117,16 @@ function App() {
     setCurrentPiece(currentPiece);
     setPiecePosition(piecePosition);
     setIsGameOver(isGameOver);
+    setScore(0);
   };
 
   return (
-    <div className="w-full h-screen">
-      <div className="flex justify-center items-center h-full">
+    <div className="w-full h-screen overflow-hidden flex items-center gap-10 mx-auto justify-center pt-20">
+      <div className="flex flex-col items-center gap-10 justify-start h-full">
+        <GameLevel score={score} level={level} linesCleared={linesCleared} />
+        <ScoreBoard />
+      </div>
+      <div className="flex h-full items-start">
         <GameBoard
           board={board}
           currentPiece={currentPiece}

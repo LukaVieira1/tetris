@@ -42,3 +42,16 @@
   - Fixes game board position
   - Fixes pieces separation
 - Fixex getRandomPiece function, now it returns a random rotation of the piece
+
+## [0.3.0] - 2024-12-27
+
+### Added
+
+- Score board
+  - Top 3 scores saved in local storage and shown in score board
+- Game level
+  - Show actual level
+  - Show actual lines cleared
+  - Show actual score
+  - Level up when 5 lines \* level are cleared
+  - Speed up at 100ms when level up
