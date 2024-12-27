@@ -21,6 +21,7 @@ import {
 import GameBoard from "./components/GameBoard";
 import { GameOverModal } from "./components/GameOverModal";
 import { GameLevel } from "./components/GameLevel";
+import { ScoreBoard } from "./components/ScoreBoard";
 
 function App() {
   // board state
@@ -123,6 +124,7 @@ function App() {
     <div className="w-full h-screen overflow-hidden flex items-center gap-10 mx-auto justify-center pt-20">
       <div className="flex flex-col items-center gap-10 justify-start h-full">
         <GameLevel score={score} level={level} linesCleared={linesCleared} />
+        <ScoreBoard />
       </div>
       <div className="flex h-full items-start">
         <GameBoard
