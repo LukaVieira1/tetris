@@ -225,10 +225,10 @@ export const updateLevel = (
   level: number,
   speed: number
 ) => {
-  const linesPerLevel = 10;
+  const linesPerLevel = 5;
   if (linesCleared >= level * linesPerLevel) {
     level += 1;
-    speed = Math.max(200, speed - 50);
+    speed = Math.max(100, speed - 100);
   }
   return { level, speed };
 };
