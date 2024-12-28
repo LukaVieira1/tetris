@@ -55,3 +55,13 @@
   - Show actual score
   - Level up when 5 lines \* level are cleared
   - Speed up at 100ms when level up
+
+## [0.3.1] - 2024-12-29
+
+### Fixed
+
+- Fixed game board size
+- Fixed game board position
+- Fixed pieces vertical position
+- Fixed pieces horizontal start position and game over condition for the new start
+- Fixed pieces dont fall when moving or rotating

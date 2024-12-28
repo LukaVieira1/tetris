@@ -89,15 +89,26 @@ export const fixPieceToBoard = (
   piece: number[][],
   position: { x: number; y: number }
 ) => {
-  if (position.y === 0) {
+  if (position.y <= 0) {
     return { board: board, isGameOver: true };
   }
 
-  const newBoard = [...board];
+  const newBoard = board.map((row) => [...row]);
+
   piece.forEach((row, y) => {
     row.forEach((value, x) => {
       if (value !== 0) {
-        newBoard[position.y + y][position.x + x] = value;
+        const boardY = position.y + y - 1;
+        const boardX = position.x + x;
+
+        if (
+          boardY >= 0 &&
+          boardY < newBoard.length &&
+          boardX >= 0 &&
+          boardX < newBoard[0].length
+        ) {
+          newBoard[boardY][boardX] = value;
+        }
       }
     });
   });
@@ -195,9 +206,9 @@ export const clearLines = (board: number[][]) => {
 
 export const resetGame = () => {
   return {
-    board: createBoard(10, 20),
+    board: createBoard(10, 15),
     currentPiece: getRandomPiece(),
-    piecePosition: { x: 4, y: 0 },
+    piecePosition: { x: 4, y: -2 },
     score: 0,
     isGameOver: false,
   };
