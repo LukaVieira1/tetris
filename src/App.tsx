@@ -25,7 +25,7 @@ import { ScoreBoard } from "./components/ScoreBoard";
 
 function App() {
   // board state
-  const [board, setBoard] = useState(createBoard(10, 20));
+  const [board, setBoard] = useState(createBoard(10, 15));
   const [currentPiece, setCurrentPiece] = useState(getRandomPiece());
   const [piecePosition, setPiecePosition] = useState({ x: 0, y: 4 });
 
@@ -121,7 +121,7 @@ function App() {
   };
 
   return (
-    <div className="w-full h-screen overflow-hidden flex items-center gap-10 mx-auto justify-center pt-20">
+    <div className="w-full h-screen flex items-center gap-10 justify-center pt-5">
       <div className="flex flex-col items-center gap-10 justify-start h-full">
         <GameLevel score={score} level={level} linesCleared={linesCleared} />
         <ScoreBoard />

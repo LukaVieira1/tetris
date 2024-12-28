@@ -195,7 +195,7 @@ export const clearLines = (board: number[][]) => {
 
 export const resetGame = () => {
   return {
-    board: createBoard(10, 20),
+    board: createBoard(10, 15),
     currentPiece: getRandomPiece(),
     piecePosition: { x: 4, y: 0 },
     score: 0,
