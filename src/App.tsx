@@ -27,7 +27,7 @@ function App() {
   // board state
   const [board, setBoard] = useState(createBoard(10, 15));
   const [currentPiece, setCurrentPiece] = useState(getRandomPiece());
-  const [piecePosition, setPiecePosition] = useState({ x: 0, y: 4 });
+  const [piecePosition, setPiecePosition] = useState({ x: 4, y: 0 });
 
   // game state
   const [isGameOver, setIsGameOver] = useState(false);
