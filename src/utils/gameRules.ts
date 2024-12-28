@@ -89,7 +89,7 @@ export const fixPieceToBoard = (
   piece: number[][],
   position: { x: number; y: number }
 ) => {
-  if (position.y === 0) {
+  if (position.y <= 0) {
     return { board: board, isGameOver: true };
   }
 
@@ -208,7 +208,7 @@ export const resetGame = () => {
   return {
     board: createBoard(10, 15),
     currentPiece: getRandomPiece(),
-    piecePosition: { x: 4, y: 0 },
+    piecePosition: { x: 4, y: -2 },
     score: 0,
     isGameOver: false,
   };

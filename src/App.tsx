@@ -27,7 +27,7 @@ function App() {
   // board state
   const [board, setBoard] = useState(createBoard(10, 15));
   const [currentPiece, setCurrentPiece] = useState(getRandomPiece());
-  const [piecePosition, setPiecePosition] = useState({ x: 4, y: 0 });
+  const [piecePosition, setPiecePosition] = useState({ x: 4, y: -2 });
 
   // game state
   const [isGameOver, setIsGameOver] = useState(false);
@@ -66,7 +66,7 @@ function App() {
       saveScoreBoard(score);
     }
     setCurrentPiece(getRandomPiece());
-    setPiecePosition({ x: 4, y: 0 });
+    setPiecePosition({ x: 4, y: -2 });
 
     const { board: clearedBoard, linesCleared: newLinesCleared } =
       clearLines(newBoard);
