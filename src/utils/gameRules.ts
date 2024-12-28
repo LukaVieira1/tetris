@@ -93,11 +93,22 @@ export const fixPieceToBoard = (
     return { board: board, isGameOver: true };
   }
 
-  const newBoard = [...board];
+  const newBoard = board.map((row) => [...row]);
+
   piece.forEach((row, y) => {
     row.forEach((value, x) => {
       if (value !== 0) {
-        newBoard[position.y + y][position.x + x] = value;
+        const boardY = position.y + y - 1;
+        const boardX = position.x + x;
+
+        if (
+          boardY >= 0 &&
+          boardY < newBoard.length &&
+          boardX >= 0 &&
+          boardX < newBoard[0].length
+        ) {
+          newBoard[boardY][boardX] = value;
+        }
       }
     });
   });

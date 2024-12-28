@@ -45,48 +45,53 @@ function App() {
           ...prevPosition,
           y: prevPosition.y + 1,
         }));
-      } else {
-        const { board: newBoard, isGameOver } = fixPieceToBoard(
-          board,
-          currentPiece,
-          piecePosition
-        );
-        setBoard(newBoard);
-        if (isGameOver) {
-          setIsGameOver(true);
-          saveScoreBoard(score);
-        }
-        setCurrentPiece(getRandomPiece());
-        setPiecePosition({ x: 4, y: 0 });
-
-        const { board: clearedBoard, linesCleared: newLinesCleared } =
-          clearLines(newBoard);
-
-        if (newLinesCleared > 0) {
-          setBoard(clearedBoard);
-          setScore(score + calculateScore(newLinesCleared));
-          const { level: newLevel, speed: newSpeed } = updateLevel(
-            linesCleared + newLinesCleared,
-            level,
-            speed
-          );
-          setLevel(newLevel);
-          setSpeed(newSpeed);
-          setLinesCleared(linesCleared + newLinesCleared);
-        }
       }
     }, speed);
 
     return () => clearInterval(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [board, isGameOver, score, level, speed, linesCleared]);
+
+  useEffect(() => {
+    if (!checkCollision(currentPiece, piecePosition, board)) return;
+
+    const { board: newBoard, isGameOver } = fixPieceToBoard(
+      board,
+      currentPiece,
+      piecePosition
+    );
+    setBoard(newBoard);
+    if (isGameOver) {
+      setIsGameOver(true);
+      saveScoreBoard(score);
+    }
+    setCurrentPiece(getRandomPiece());
+    setPiecePosition({ x: 4, y: 0 });
+
+    const { board: clearedBoard, linesCleared: newLinesCleared } =
+      clearLines(newBoard);
+
+    if (newLinesCleared > 0) {
+      setBoard(clearedBoard);
+      setScore(score + calculateScore(newLinesCleared));
+      const { level: newLevel, speed: newSpeed } = updateLevel(
+        linesCleared + newLinesCleared,
+        level,
+        speed
+      );
+      setLevel(newLevel);
+      setSpeed(newSpeed);
+      setLinesCleared(linesCleared + newLinesCleared);
+    }
   }, [
-    piecePosition,
     board,
-    currentPiece,
     isGameOver,
     score,
     level,
     speed,
     linesCleared,
+    currentPiece,
+    piecePosition,
   ]);
 
   useEffect(() => {
