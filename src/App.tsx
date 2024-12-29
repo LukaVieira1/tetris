@@ -18,16 +18,22 @@ import {
 } from "./utils/gameRules";
 
 // Components
-import GameBoard from "./components/GameBoard";
+import { GameBoard } from "./components/GameBoard";
 import { GameOverModal } from "./components/GameOverModal";
 import { GameLevel } from "./components/GameLevel";
 import { ScoreBoard } from "./components/ScoreBoard";
+import { NextPieces } from "./components/NextPieces";
 
 function App() {
   // board state
   const [board, setBoard] = useState(createBoard(10, 15));
   const [currentPiece, setCurrentPiece] = useState(getRandomPiece());
   const [piecePosition, setPiecePosition] = useState({ x: 4, y: -2 });
+  const [nextPieces, setNextPieces] = useState([
+    getRandomPiece(),
+    getRandomPiece(),
+    getRandomPiece(),
+  ]);
 
   // game state
   const [isGameOver, setIsGameOver] = useState(false);
@@ -64,24 +70,25 @@ function App() {
     if (isGameOver) {
       setIsGameOver(true);
       saveScoreBoard(score);
-    }
-    setCurrentPiece(getRandomPiece());
-    setPiecePosition({ x: 4, y: -2 });
+    } else {
+      setCurrentPiece(nextPieces[0]);
+      setNextPieces((prev) => [...prev.slice(1), getRandomPiece()]);
+      setPiecePosition({ x: 4, y: -2 });
+      const { board: clearedBoard, linesCleared: newLinesCleared } =
+        clearLines(newBoard);
 
-    const { board: clearedBoard, linesCleared: newLinesCleared } =
-      clearLines(newBoard);
-
-    if (newLinesCleared > 0) {
-      setBoard(clearedBoard);
-      setScore(score + calculateScore(newLinesCleared));
-      const { level: newLevel, speed: newSpeed } = updateLevel(
-        linesCleared + newLinesCleared,
-        level,
-        speed
-      );
-      setLevel(newLevel);
-      setSpeed(newSpeed);
-      setLinesCleared(linesCleared + newLinesCleared);
+      if (newLinesCleared > 0) {
+        setBoard(clearedBoard);
+        setScore(score + calculateScore(newLinesCleared));
+        const { level: newLevel, speed: newSpeed } = updateLevel(
+          linesCleared + newLinesCleared,
+          level,
+          speed
+        );
+        setLevel(newLevel);
+        setSpeed(newSpeed);
+        setLinesCleared(linesCleared + newLinesCleared);
+      }
     }
   }, [
     board,
@@ -92,6 +99,7 @@ function App() {
     linesCleared,
     currentPiece,
     piecePosition,
+    nextPieces,
   ]);
 
   useEffect(() => {
@@ -138,6 +146,7 @@ function App() {
           piecePosition={piecePosition}
         />
       </div>
+      <NextPieces nextPieces={nextPieces} />
       {isGameOver && <GameOverModal onReset={handleReset} />}
     </div>
   );
