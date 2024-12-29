@@ -6,7 +6,11 @@ interface IGameBoard {
   piecePosition: { x: number; y: number };
 }
 
-const GameBoard = ({ board, currentPiece, piecePosition }: IGameBoard) => {
+export const GameBoard = ({
+  board,
+  currentPiece,
+  piecePosition,
+}: IGameBoard) => {
   const displayBoard = mergePieceWithBoard(board, currentPiece, piecePosition);
 
   return (
@@ -22,5 +26,3 @@ const GameBoard = ({ board, currentPiece, piecePosition }: IGameBoard) => {
     </div>
   );
 };
-
-export default GameBoard;
