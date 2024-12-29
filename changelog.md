@@ -65,3 +65,26 @@
 - Fixed pieces vertical position
 - Fixed pieces horizontal start position and game over condition for the new start
 - Fixed pieces dont fall when moving or rotating
+
+## [0.4.0] - 2024-12-29
+
+### Added
+
+- Pause game option
+
+  - Pause game if pressed p
+  - Resume game if pressed p
+  - Pause game when click outside the game
+
+- Pause game modal
+
+  - Show pause game modal
+  - Resume game if pressed p
+  - Resume game if click continue
+
+- Shadow piece
+
+  - Shadow piece is a preview to where the piece will fall
+
+- Next pieces
+  - Show the next 3 pieces
