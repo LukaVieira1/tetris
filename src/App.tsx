@@ -128,6 +128,18 @@ function App() {
     return () => window.removeEventListener("keydown", handleKeyPress);
   }, [piecePosition, board, currentPiece, isGameOver, isPaused]);
 
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        setIsPaused(true);
+      }
+    };
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, []);
+
   const handleReset = () => {
     const { board, currentPiece, piecePosition, isGameOver } = resetGame();
     setBoard(board);
