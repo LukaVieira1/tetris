@@ -67,7 +67,7 @@ export const checkCollision = (
 ) => {
   for (let y = 0; y < piece.length; y++) {
     for (let x = 0; x < piece[y].length; x++) {
-      if (piece[y][x] !== 0) {
+      if (piece[y][x] === 1) {
         const newX = x + position.x;
         const newY = y + position.y;
 
@@ -173,7 +173,8 @@ export const dropPiece = (
 export const mergePieceWithBoard = (
   board: number[][],
   piece: number[][],
-  position: { x: number; y: number }
+  position: { x: number; y: number },
+  isShadow: boolean = false
 ) => {
   const newBoard = board.map((row) => [...row]);
 
@@ -184,7 +185,7 @@ export const mergePieceWithBoard = (
         const newY = position.y + y;
 
         if (newBoard[newY] && newBoard[newY][newX] !== undefined) {
-          newBoard[newY][newX] = value;
+          newBoard[newY][newX] = isShadow ? -1 : value;
         }
       }
     });
@@ -271,4 +272,20 @@ export const updateLevel = (
     speed = Math.max(100, speed - 100);
   }
   return { level, speed };
+};
+
+export const calculateFinalPosition = (
+  piece: number[][],
+  position: { x: number; y: number },
+  board: number[][]
+): { x: number; y: number } => {
+  const dropPosition = { ...position };
+
+  while (
+    !checkCollision(piece, { x: dropPosition.x, y: dropPosition.y + 1 }, board)
+  ) {
+    dropPosition.y += 1;
+  }
+
+  return dropPosition;
 };

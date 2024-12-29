@@ -18,16 +18,23 @@ import {
 } from "./utils/gameRules";
 
 // Components
-import GameBoard from "./components/GameBoard";
+import { GameBoard } from "./components/GameBoard";
 import { GameOverModal } from "./components/GameOverModal";
 import { GameLevel } from "./components/GameLevel";
 import { ScoreBoard } from "./components/ScoreBoard";
+import { NextPieces } from "./components/NextPieces";
+import { GamePauseModal } from "./components/GamePauseModal";
 
 function App() {
   // board state
   const [board, setBoard] = useState(createBoard(10, 15));
   const [currentPiece, setCurrentPiece] = useState(getRandomPiece());
   const [piecePosition, setPiecePosition] = useState({ x: 4, y: -2 });
+  const [nextPieces, setNextPieces] = useState([
+    getRandomPiece(),
+    getRandomPiece(),
+    getRandomPiece(),
+  ]);
 
   // game state
   const [isGameOver, setIsGameOver] = useState(false);
@@ -35,9 +42,10 @@ function App() {
   const [level, setLevel] = useState(1);
   const [speed, setSpeed] = useState(1000);
   const [linesCleared, setLinesCleared] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
 
   useEffect(() => {
-    if (isGameOver) return;
+    if (isGameOver || isPaused) return;
     const timer = setInterval(() => {
       const newPosition = { x: piecePosition.x, y: piecePosition.y + 1 };
       if (!checkCollision(currentPiece, newPosition, board)) {
@@ -50,7 +58,7 @@ function App() {
 
     return () => clearInterval(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [board, isGameOver, score, level, speed, linesCleared]);
+  }, [board, isGameOver, score, level, speed, linesCleared, isPaused]);
 
   useEffect(() => {
     if (!checkCollision(currentPiece, piecePosition, board)) return;
@@ -64,24 +72,25 @@ function App() {
     if (isGameOver) {
       setIsGameOver(true);
       saveScoreBoard(score);
-    }
-    setCurrentPiece(getRandomPiece());
-    setPiecePosition({ x: 4, y: -2 });
+    } else {
+      setCurrentPiece(nextPieces[0]);
+      setNextPieces((prev) => [...prev.slice(1), getRandomPiece()]);
+      setPiecePosition({ x: 4, y: -2 });
+      const { board: clearedBoard, linesCleared: newLinesCleared } =
+        clearLines(newBoard);
 
-    const { board: clearedBoard, linesCleared: newLinesCleared } =
-      clearLines(newBoard);
-
-    if (newLinesCleared > 0) {
-      setBoard(clearedBoard);
-      setScore(score + calculateScore(newLinesCleared));
-      const { level: newLevel, speed: newSpeed } = updateLevel(
-        linesCleared + newLinesCleared,
-        level,
-        speed
-      );
-      setLevel(newLevel);
-      setSpeed(newSpeed);
-      setLinesCleared(linesCleared + newLinesCleared);
+      if (newLinesCleared > 0) {
+        setBoard(clearedBoard);
+        setScore(score + calculateScore(newLinesCleared));
+        const { level: newLevel, speed: newSpeed } = updateLevel(
+          linesCleared + newLinesCleared,
+          level,
+          speed
+        );
+        setLevel(newLevel);
+        setSpeed(newSpeed);
+        setLinesCleared(linesCleared + newLinesCleared);
+      }
     }
   }, [
     board,
@@ -92,6 +101,7 @@ function App() {
     linesCleared,
     currentPiece,
     piecePosition,
+    nextPieces,
   ]);
 
   useEffect(() => {
@@ -109,12 +119,26 @@ function App() {
         setPiecePosition(dropPiece(piecePosition, currentPiece, board));
       } else if (event.key === "ArrowUp") {
         setCurrentPiece(rotatePiece(piecePosition, currentPiece, board));
+      } else if (event.key === "p" || event.key === "P") {
+        setIsPaused(!isPaused);
       }
     };
 
     window.addEventListener("keydown", handleKeyPress);
     return () => window.removeEventListener("keydown", handleKeyPress);
-  }, [piecePosition, board, currentPiece, isGameOver]);
+  }, [piecePosition, board, currentPiece, isGameOver, isPaused]);
+
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        setIsPaused(true);
+      }
+    };
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, []);
 
   const handleReset = () => {
     const { board, currentPiece, piecePosition, isGameOver } = resetGame();
@@ -123,6 +147,10 @@ function App() {
     setPiecePosition(piecePosition);
     setIsGameOver(isGameOver);
     setScore(0);
+  };
+
+  const handleContinue = () => {
+    setIsPaused(false);
   };
 
   return (
@@ -138,7 +166,9 @@ function App() {
           piecePosition={piecePosition}
         />
       </div>
+      <NextPieces nextPieces={nextPieces} />
       {isGameOver && <GameOverModal onReset={handleReset} />}
+      {isPaused && <GamePauseModal onContinue={handleContinue} />}
     </div>
   );
 }
