@@ -23,6 +23,7 @@ import { GameOverModal } from "./components/GameOverModal";
 import { GameLevel } from "./components/GameLevel";
 import { ScoreBoard } from "./components/ScoreBoard";
 import { NextPieces } from "./components/NextPieces";
+import { GamePauseModal } from "./components/GamePauseModal";
 
 function App() {
   // board state
@@ -41,9 +42,10 @@ function App() {
   const [level, setLevel] = useState(1);
   const [speed, setSpeed] = useState(1000);
   const [linesCleared, setLinesCleared] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
 
   useEffect(() => {
-    if (isGameOver) return;
+    if (isGameOver || isPaused) return;
     const timer = setInterval(() => {
       const newPosition = { x: piecePosition.x, y: piecePosition.y + 1 };
       if (!checkCollision(currentPiece, newPosition, board)) {
@@ -56,7 +58,7 @@ function App() {
 
     return () => clearInterval(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [board, isGameOver, score, level, speed, linesCleared]);
+  }, [board, isGameOver, score, level, speed, linesCleared, isPaused]);
 
   useEffect(() => {
     if (!checkCollision(currentPiece, piecePosition, board)) return;
@@ -117,12 +119,14 @@ function App() {
         setPiecePosition(dropPiece(piecePosition, currentPiece, board));
       } else if (event.key === "ArrowUp") {
         setCurrentPiece(rotatePiece(piecePosition, currentPiece, board));
+      } else if (event.key === "p" || event.key === "P") {
+        setIsPaused(!isPaused);
       }
     };
 
     window.addEventListener("keydown", handleKeyPress);
     return () => window.removeEventListener("keydown", handleKeyPress);
-  }, [piecePosition, board, currentPiece, isGameOver]);
+  }, [piecePosition, board, currentPiece, isGameOver, isPaused]);
 
   const handleReset = () => {
     const { board, currentPiece, piecePosition, isGameOver } = resetGame();
@@ -131,6 +135,10 @@ function App() {
     setPiecePosition(piecePosition);
     setIsGameOver(isGameOver);
     setScore(0);
+  };
+
+  const handleContinue = () => {
+    setIsPaused(false);
   };
 
   return (
@@ -148,6 +156,7 @@ function App() {
       </div>
       <NextPieces nextPieces={nextPieces} />
       {isGameOver && <GameOverModal onReset={handleReset} />}
+      {isPaused && <GamePauseModal onContinue={handleContinue} />}
     </div>
   );
 }
