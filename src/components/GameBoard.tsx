@@ -38,13 +38,17 @@ export const GameBoard = ({
       {finalBoard.map((row, y) =>
         row.map((cell, x) => (
           <div
+            style={{
+              border: cell.value === -1 ? `2px solid ${cell.color}` : "",
+              backgroundColor: cell?.value === 1 ? `${cell.color}` : "",
+            }}
             key={`${x}-${y}`}
-            className={`size-11 ${
+            className={`size-11 rounded-lg transition-transform duration-200 ${
               cell.value === 0
                 ? "bg-gray-300"
                 : cell.value === 1
-                ? cell.color
-                : "bg-blue-300 opacity-50"
+                ? `border border-black shadow-lg`
+                : `bg-gray-300 shadow-lg`
             }`}
           ></div>
         ))

@@ -6,9 +6,9 @@ export const NextPieces = ({
   return (
     <div className="flex flex-col items-center">
       <h2 className="text-black text-lg font-bold mb-4">Próximas peças</h2>
-      <div className="relative w-40 h-64 border-2 border-black flex flex-col items-center p-4">
+      <div className="relative w-40 border-2 border-black flex flex-col items-center p-4 bg-gray-300">
         <div className="flex flex-col gap-4 items-center justify-start w-full">
-          <div className="flex flex-col gap-4 items-center justify-start w-full">
+          <div className="flex flex-col gap-1 items-center justify-start w-full">
             {nextPieces.map((piece, index) => (
               <div
                 key={index}
@@ -21,9 +21,14 @@ export const NextPieces = ({
                 {piece.shape.map((row, y) =>
                   row.map((cell, x) => (
                     <div
+                      style={{
+                        backgroundColor: cell !== 0 ? piece.color : "",
+                      }}
                       key={`${y}-${x}`}
-                      className={`w-4 h-4 ${
-                        cell !== 0 ? piece.color : "bg-transparent"
+                      className={`size-4 rounded-[0.25rem] ${
+                        cell !== 0
+                          ? `border border-black shadow-lg`
+                          : "bg-gray-300 "
                       }`}
                     />
                   ))
