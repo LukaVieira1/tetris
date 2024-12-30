@@ -1,4 +1,8 @@
-export const NextPieces = ({ nextPieces }: { nextPieces: number[][][] }) => {
+export const NextPieces = ({
+  nextPieces,
+}: {
+  nextPieces: { shape: number[][]; color: string }[];
+}) => {
   return (
     <div className="flex flex-col items-center">
       <h2 className="text-black text-lg font-bold mb-4">Próximas peças</h2>
@@ -10,16 +14,16 @@ export const NextPieces = ({ nextPieces }: { nextPieces: number[][][] }) => {
                 key={index}
                 className="grid"
                 style={{
-                  gridTemplateRows: `repeat(${piece.length}, 1fr)`,
-                  gridTemplateColumns: `repeat(${piece[0].length}, 1fr)`,
+                  gridTemplateRows: `repeat(${piece.shape.length}, 1fr)`,
+                  gridTemplateColumns: `repeat(${piece.shape[0].length}, 1fr)`,
                 }}
               >
-                {piece.map((row, y) =>
+                {piece.shape.map((row, y) =>
                   row.map((cell, x) => (
                     <div
                       key={`${y}-${x}`}
                       className={`w-4 h-4 ${
-                        cell !== 0 ? "bg-blue-500" : "bg-transparent"
+                        cell !== 0 ? piece.color : "bg-transparent"
                       }`}
                     />
                   ))

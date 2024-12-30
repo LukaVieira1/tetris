@@ -48,7 +48,7 @@ function App() {
     if (isGameOver || isPaused) return;
     const timer = setInterval(() => {
       const newPosition = { x: piecePosition.x, y: piecePosition.y + 1 };
-      if (!checkCollision(currentPiece, newPosition, board)) {
+      if (!checkCollision(currentPiece.shape, newPosition, board)) {
         setPiecePosition((prevPosition) => ({
           ...prevPosition,
           y: prevPosition.y + 1,
@@ -61,7 +61,7 @@ function App() {
   }, [board, isGameOver, score, level, speed, linesCleared, isPaused]);
 
   useEffect(() => {
-    if (!checkCollision(currentPiece, piecePosition, board)) return;
+    if (!checkCollision(currentPiece.shape, piecePosition, board)) return;
 
     const { board: newBoard, isGameOver } = fixPieceToBoard(
       board,
@@ -109,16 +109,23 @@ function App() {
       if (isGameOver) return;
       if (event.key === "ArrowLeft") {
         setPiecePosition(
-          movePiece([-1, 0], piecePosition, currentPiece, board)
+          movePiece([-1, 0], piecePosition, currentPiece.shape, board)
         );
       } else if (event.key === "ArrowRight") {
-        setPiecePosition(movePiece([1, 0], piecePosition, currentPiece, board));
+        setPiecePosition(
+          movePiece([1, 0], piecePosition, currentPiece.shape, board)
+        );
       } else if (event.key === "ArrowDown") {
-        setPiecePosition(movePiece([0, 1], piecePosition, currentPiece, board));
+        setPiecePosition(
+          movePiece([0, 1], piecePosition, currentPiece.shape, board)
+        );
       } else if (event.key === " ") {
-        setPiecePosition(dropPiece(piecePosition, currentPiece, board));
+        setPiecePosition(dropPiece(piecePosition, currentPiece.shape, board));
       } else if (event.key === "ArrowUp") {
-        setCurrentPiece(rotatePiece(piecePosition, currentPiece, board));
+        setCurrentPiece({
+          shape: rotatePiece(piecePosition, currentPiece.shape, board),
+          color: currentPiece.color,
+        });
       } else if (event.key === "p" || event.key === "P") {
         setIsPaused(!isPaused);
       }
