@@ -88,3 +88,9 @@
 
 - Next pieces
   - Show the next 3 pieces
+
+## [0.4.1] - 2024-12-30
+
+### Fixed
+
+- Reset all game states when reset game
