@@ -141,9 +141,12 @@ function App() {
   }, []);
 
   const handleReset = () => {
-    const { board, currentPiece, piecePosition, isGameOver } = resetGame();
+    const { board, piecePosition, isGameOver } = resetGame();
     setBoard(board);
-    setCurrentPiece(currentPiece);
+    setNextPieces([getRandomPiece(), getRandomPiece(), getRandomPiece()]);
+    setLevel(1);
+    setSpeed(1000);
+    setLinesCleared(0);
     setPiecePosition(piecePosition);
     setIsGameOver(isGameOver);
     setScore(0);

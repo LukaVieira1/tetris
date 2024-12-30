@@ -208,9 +208,7 @@ export const clearLines = (board: number[][]) => {
 export const resetGame = () => {
   return {
     board: createBoard(10, 15),
-    currentPiece: getRandomPiece(),
     piecePosition: { x: 4, y: -2 },
-    score: 0,
     isGameOver: false,
   };
 };
