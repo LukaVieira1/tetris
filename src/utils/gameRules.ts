@@ -28,7 +28,7 @@ const SHAPES = {
       [0, 0, 0, 0],
       [0, 0, 0, 0],
     ],
-    color: "bg-blue-500",
+    color: "#3B82F6",
   },
   J: {
     shape: [
@@ -37,7 +37,7 @@ const SHAPES = {
       [0, 0, 1, 0],
       [0, 0, 0, 0],
     ],
-    color: "bg-indigo-500",
+    color: "#4F46E5",
   },
   L: {
     shape: [
@@ -46,7 +46,7 @@ const SHAPES = {
       [1, 0, 0, 0],
       [0, 0, 0, 0],
     ],
-    color: "bg-orange-500",
+    color: "#F97316",
   },
   O: {
     shape: [
@@ -55,7 +55,7 @@ const SHAPES = {
       [0, 1, 1, 0],
       [0, 0, 0, 0],
     ],
-    color: "bg-yellow-500",
+    color: "#FBBF24",
   },
   S: {
     shape: [
@@ -64,7 +64,7 @@ const SHAPES = {
       [1, 1, 0, 0],
       [0, 0, 0, 0],
     ],
-    color: "bg-green-500",
+    color: "#22C55E",
   },
   T: {
     shape: [
@@ -73,7 +73,7 @@ const SHAPES = {
       [0, 1, 0, 0],
       [0, 0, 0, 0],
     ],
-    color: "bg-purple-500",
+    color: "#A855F7",
   },
   Z: {
     shape: [
@@ -82,7 +82,7 @@ const SHAPES = {
       [0, 1, 1, 0],
       [0, 0, 0, 0],
     ],
-    color: "bg-red-500",
+    color: "#EF4444",
   },
 };
 
@@ -212,7 +212,7 @@ export const mergePieceWithBoard = (
 
         if (newBoard[newY] && newBoard[newY][newX] !== undefined) {
           newBoard[newY][newX] = isShadow
-            ? { value: -1, color: "" }
+            ? { value: -1, color: piece.color }
             : { value, color: piece.color };
         }
       }
