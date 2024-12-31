@@ -20,7 +20,7 @@ export const GameOverModal = ({ onReset }: { onReset: () => void }) => {
               shadow-lg hover:shadow-blue-500/25 border border-blue-600/50"
             onClick={handleReset}
           >
-            🎮 Jogar Novamente
+            Jogar Novamente
           </button>
         </div>
       </div>

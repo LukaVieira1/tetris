@@ -103,7 +103,6 @@ function App() {
       setBoard(newBoard);
     }
 
-    // Sempre atualizamos a próxima peça após fixar a atual
     setCurrentPiece(nextPieces[0]);
     setNextPieces((prev) => [...prev.slice(1), getRandomPiece()]);
     setPiecePosition({ x: 4, y: -2 });
