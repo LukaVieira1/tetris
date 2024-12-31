@@ -45,11 +45,20 @@ export const GameBoard = ({
               row.map((cell, x) => (
                 <motion.div
                   key={`${x}-${y}`}
+                  initial={cell.value === 1 ? { y: -50 } : {}}
                   animate={{
                     scale: clearedLines.includes(y) ? 0 : 1,
+                    y: 0,
                     transition: {
-                      duration: clearedLines.includes(y) ? 0.3 : 0,
+                      duration: clearedLines.includes(y)
+                        ? 0.3
+                        : cell.value === 1
+                        ? 0.3
+                        : 0,
                       delay: clearedLines.includes(y) ? x * 0.05 : 0,
+                      type: "spring",
+                      stiffness: 200,
+                      damping: 20,
                     },
                   }}
                   style={{
