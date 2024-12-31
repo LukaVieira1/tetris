@@ -1,69 +1,95 @@
 export const createBoard = (boardWidth: number, boardHeight: number) => {
-  return Array.from({ length: boardHeight }, () => Array(boardWidth).fill(0));
+  return Array.from({ length: boardHeight }, () =>
+    Array.from({ length: boardWidth }, () => ({ value: 0, color: "" }))
+  );
 };
 
 export const getRandomPiece = () => {
   const keys = Object.keys(SHAPES) as Array<keyof typeof SHAPES>;
   const randomKey = keys[Math.floor(Math.random() * keys.length)];
-  let piece = SHAPES[randomKey];
+  const piece = SHAPES[randomKey];
 
   const rotations = Math.floor(Math.random() * 4);
   for (let i = 0; i < rotations; i++) {
-    piece = rotateMatrix(piece);
+    piece.shape = rotateMatrix(piece.shape);
   }
 
-  return piece;
+  return {
+    shape: piece.shape,
+    color: piece.color,
+  };
 };
 
 const SHAPES = {
-  I: [
-    [0, 0, 0, 0],
-    [1, 1, 1, 1],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-  ],
-  J: [
-    [0, 0, 0, 0],
-    [1, 1, 1, 0],
-    [0, 0, 1, 0],
-    [0, 0, 0, 0],
-  ],
-  L: [
-    [0, 0, 0, 0],
-    [1, 1, 1, 0],
-    [1, 0, 0, 0],
-    [0, 0, 0, 0],
-  ],
-  O: [
-    [0, 0, 0, 0],
-    [0, 1, 1, 0],
-    [0, 1, 1, 0],
-    [0, 0, 0, 0],
-  ],
-  S: [
-    [0, 0, 0, 0],
-    [0, 1, 1, 0],
-    [1, 1, 0, 0],
-    [0, 0, 0, 0],
-  ],
-  T: [
-    [0, 0, 0, 0],
-    [1, 1, 1, 0],
-    [0, 1, 0, 0],
-    [0, 0, 0, 0],
-  ],
-  Z: [
-    [0, 0, 0, 0],
-    [1, 1, 0, 0],
-    [0, 1, 1, 0],
-    [0, 0, 0, 0],
-  ],
+  I: {
+    shape: [
+      [0, 0, 0, 0],
+      [1, 1, 1, 1],
+      [0, 0, 0, 0],
+      [0, 0, 0, 0],
+    ],
+    color: "#3B82F6",
+  },
+  J: {
+    shape: [
+      [0, 0, 0, 0],
+      [1, 1, 1, 0],
+      [0, 0, 1, 0],
+      [0, 0, 0, 0],
+    ],
+    color: "#4F46E5",
+  },
+  L: {
+    shape: [
+      [0, 0, 0, 0],
+      [1, 1, 1, 0],
+      [1, 0, 0, 0],
+      [0, 0, 0, 0],
+    ],
+    color: "#F97316",
+  },
+  O: {
+    shape: [
+      [0, 0, 0, 0],
+      [0, 1, 1, 0],
+      [0, 1, 1, 0],
+      [0, 0, 0, 0],
+    ],
+    color: "#FBBF24",
+  },
+  S: {
+    shape: [
+      [0, 0, 0, 0],
+      [0, 1, 1, 0],
+      [1, 1, 0, 0],
+      [0, 0, 0, 0],
+    ],
+    color: "#22C55E",
+  },
+  T: {
+    shape: [
+      [0, 0, 0, 0],
+      [1, 1, 1, 0],
+      [0, 1, 0, 0],
+      [0, 0, 0, 0],
+    ],
+    color: "#A855F7",
+  },
+  Z: {
+    shape: [
+      [0, 0, 0, 0],
+      [1, 1, 0, 0],
+      [0, 1, 1, 0],
+      [0, 0, 0, 0],
+    ],
+    color: "#EF4444",
+  },
 };
 
 export const checkCollision = (
   piece: number[][],
   position: { x: number; y: number },
-  board: number[][]
+  board: { value: number; color: string }[][]
 ) => {
   for (let y = 0; y < piece.length; y++) {
     for (let x = 0; x < piece[y].length; x++) {
@@ -75,7 +101,7 @@ export const checkCollision = (
           return true;
         }
 
-        if (board[newY] && board[newY][newX] !== 0) {
+        if (board[newY] && board[newY][newX].value !== 0) {
           return true;
         }
       }
@@ -85,8 +111,8 @@ export const checkCollision = (
 };
 
 export const fixPieceToBoard = (
-  board: number[][],
-  piece: number[][],
+  board: { value: number; color: string }[][],
+  piece: { shape: number[][]; color: string },
   position: { x: number; y: number }
 ) => {
   if (position.y <= 0) {
@@ -95,7 +121,7 @@ export const fixPieceToBoard = (
 
   const newBoard = board.map((row) => [...row]);
 
-  piece.forEach((row, y) => {
+  piece.shape.forEach((row, y) => {
     row.forEach((value, x) => {
       if (value !== 0) {
         const boardY = position.y + y - 1;
@@ -107,7 +133,7 @@ export const fixPieceToBoard = (
           boardX >= 0 &&
           boardX < newBoard[0].length
         ) {
-          newBoard[boardY][boardX] = value;
+          newBoard[boardY][boardX] = { value, color: piece.color };
         }
       }
     });
@@ -120,7 +146,7 @@ export const movePiece = (
   direction: number[],
   piecePosition: { x: number; y: number },
   currentPiece: number[][],
-  board: number[][]
+  board: { value: number; color: string }[][]
 ) => {
   const newPosition = {
     x: piecePosition.x + direction[0],
@@ -136,7 +162,7 @@ export const movePiece = (
 export const rotatePiece = (
   piecePosition: { x: number; y: number },
   currentPiece: number[][],
-  board: number[][]
+  board: { value: number; color: string }[][]
 ) => {
   const rotatedPiece = rotateMatrix(currentPiece);
 
@@ -153,7 +179,7 @@ const rotateMatrix = (matrix: number[][]) => {
 export const dropPiece = (
   piecePosition: { x: number; y: number },
   currentPiece: number[][],
-  board: number[][]
+  board: { value: number; color: string }[][]
 ) => {
   const newPosition = { ...piecePosition };
 
@@ -171,21 +197,23 @@ export const dropPiece = (
 };
 
 export const mergePieceWithBoard = (
-  board: number[][],
-  piece: number[][],
+  board: { value: number; color: string | null }[][],
+  piece: { shape: number[][]; color: string },
   position: { x: number; y: number },
   isShadow: boolean = false
 ) => {
-  const newBoard = board.map((row) => [...row]);
+  const newBoard = board.map((row) => row.map((cell) => ({ ...cell })));
 
-  piece.forEach((row, y) => {
+  piece.shape.forEach((row, y) => {
     row.forEach((value, x) => {
       if (value !== 0) {
         const newX = position.x + x;
         const newY = position.y + y;
 
         if (newBoard[newY] && newBoard[newY][newX] !== undefined) {
-          newBoard[newY][newX] = isShadow ? -1 : value;
+          newBoard[newY][newX] = isShadow
+            ? { value: -1, color: piece.color }
+            : { value, color: piece.color };
         }
       }
     });
@@ -194,15 +222,25 @@ export const mergePieceWithBoard = (
   return newBoard;
 };
 
-export const clearLines = (board: number[][]) => {
-  const clearedBoard = board.filter((row) => row.some((cell) => cell === 0));
-  const linesCleared = board.length - clearedBoard.length;
+export const clearLines = (board: { value: number; color: string }[][]) => {
+  const linesToClear = board
+    .map((row, index) => (row.every((cell) => cell.value === 1) ? index : -1))
+    .filter((index) => index !== -1);
 
-  while (clearedBoard.length < board.length) {
-    clearedBoard.unshift(new Array(board[0].length).fill(0));
+  if (linesToClear.length === 0) {
+    return { board, linesToClear: [], linesCleared: 0 };
   }
 
-  return { board: clearedBoard, linesCleared };
+  const newBoard = board.filter((_, index) => !linesToClear.includes(index));
+  const emptyLines = Array(linesToClear.length)
+    .fill(null)
+    .map(() => Array(board[0].length).fill({ value: 0, color: "" }));
+
+  return {
+    board: [...emptyLines, ...newBoard],
+    linesToClear,
+    linesCleared: linesToClear.length,
+  };
 };
 
 export const resetGame = () => {
@@ -275,7 +313,7 @@ export const updateLevel = (
 export const calculateFinalPosition = (
   piece: number[][],
   position: { x: number; y: number },
-  board: number[][]
+  board: { value: number; color: string }[][]
 ): { x: number; y: number } => {
   const dropPosition = { ...position };
 

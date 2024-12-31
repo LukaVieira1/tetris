@@ -43,12 +43,13 @@ function App() {
   const [speed, setSpeed] = useState(1000);
   const [linesCleared, setLinesCleared] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const [clearedLines, setClearedLines] = useState<number[]>([]);
 
   useEffect(() => {
     if (isGameOver || isPaused) return;
     const timer = setInterval(() => {
       const newPosition = { x: piecePosition.x, y: piecePosition.y + 1 };
-      if (!checkCollision(currentPiece, newPosition, board)) {
+      if (!checkCollision(currentPiece.shape, newPosition, board)) {
         setPiecePosition((prevPosition) => ({
           ...prevPosition,
           y: prevPosition.y + 1,
@@ -61,37 +62,50 @@ function App() {
   }, [board, isGameOver, score, level, speed, linesCleared, isPaused]);
 
   useEffect(() => {
-    if (!checkCollision(currentPiece, piecePosition, board)) return;
+    if (!checkCollision(currentPiece.shape, piecePosition, board)) return;
 
     const { board: newBoard, isGameOver } = fixPieceToBoard(
       board,
       currentPiece,
       piecePosition
     );
-    setBoard(newBoard);
+
     if (isGameOver) {
       setIsGameOver(true);
       saveScoreBoard(score);
-    } else {
-      setCurrentPiece(nextPieces[0]);
-      setNextPieces((prev) => [...prev.slice(1), getRandomPiece()]);
-      setPiecePosition({ x: 4, y: -2 });
-      const { board: clearedBoard, linesCleared: newLinesCleared } =
-        clearLines(newBoard);
+      return;
+    }
 
-      if (newLinesCleared > 0) {
+    const { linesToClear } = clearLines(newBoard);
+
+    if (linesToClear.length > 0) {
+      setBoard(newBoard);
+
+      setClearedLines(linesToClear);
+
+      setTimeout(() => {
+        const { board: clearedBoard } = clearLines(newBoard);
+        setClearedLines([]);
         setBoard(clearedBoard);
-        setScore(score + calculateScore(newLinesCleared));
+        setScore(score + calculateScore(linesToClear.length));
+
         const { level: newLevel, speed: newSpeed } = updateLevel(
-          linesCleared + newLinesCleared,
+          linesCleared + linesToClear.length,
           level,
           speed
         );
+
         setLevel(newLevel);
         setSpeed(newSpeed);
-        setLinesCleared(linesCleared + newLinesCleared);
-      }
+        setLinesCleared(linesCleared + linesToClear.length);
+      }, 500);
+    } else {
+      setBoard(newBoard);
     }
+
+    setCurrentPiece(nextPieces[0]);
+    setNextPieces((prev) => [...prev.slice(1), getRandomPiece()]);
+    setPiecePosition({ x: 4, y: -2 });
   }, [
     board,
     isGameOver,
@@ -109,16 +123,23 @@ function App() {
       if (isGameOver) return;
       if (event.key === "ArrowLeft") {
         setPiecePosition(
-          movePiece([-1, 0], piecePosition, currentPiece, board)
+          movePiece([-1, 0], piecePosition, currentPiece.shape, board)
         );
       } else if (event.key === "ArrowRight") {
-        setPiecePosition(movePiece([1, 0], piecePosition, currentPiece, board));
+        setPiecePosition(
+          movePiece([1, 0], piecePosition, currentPiece.shape, board)
+        );
       } else if (event.key === "ArrowDown") {
-        setPiecePosition(movePiece([0, 1], piecePosition, currentPiece, board));
+        setPiecePosition(
+          movePiece([0, 1], piecePosition, currentPiece.shape, board)
+        );
       } else if (event.key === " ") {
-        setPiecePosition(dropPiece(piecePosition, currentPiece, board));
+        setPiecePosition(dropPiece(piecePosition, currentPiece.shape, board));
       } else if (event.key === "ArrowUp") {
-        setCurrentPiece(rotatePiece(piecePosition, currentPiece, board));
+        setCurrentPiece({
+          shape: rotatePiece(piecePosition, currentPiece.shape, board),
+          color: currentPiece.color,
+        });
       } else if (event.key === "p" || event.key === "P") {
         setIsPaused(!isPaused);
       }
@@ -157,19 +178,29 @@ function App() {
   };
 
   return (
-    <div className="w-full h-screen flex items-center gap-10 justify-center pt-5">
-      <div className="flex flex-col items-center gap-10 justify-start h-full">
-        <GameLevel score={score} level={level} linesCleared={linesCleared} />
-        <ScoreBoard />
+    <div className="min-h-screen w-full bg-gradient-to-b from-gray-900 via-purple-900 to-gray-900 overflow-hidden">
+      <div className="absolute inset-0 bg-[url('/bg-grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]" />
+
+      <div className="relative flex flex-col lg:flex-row items-start justify-center gap-4 lg:gap-6 p-2 lg:p-4 min-h-screen">
+        <div className="flex flex-col items-center gap-4 lg:gap-6 order-2 lg:order-1 lg:mt-8">
+          <ScoreBoard />
+          <GameLevel score={score} level={level} linesCleared={linesCleared} />
+        </div>
+
+        <div className="flex items-start justify-center order-1 lg:order-2 lg:mt-8">
+          <GameBoard
+            board={board}
+            currentPiece={currentPiece}
+            piecePosition={piecePosition}
+            clearedLines={clearedLines}
+          />
+        </div>
+
+        <div className="flex items-center justify-center order-3 lg:mt-8">
+          <NextPieces nextPieces={nextPieces} />
+        </div>
       </div>
-      <div className="flex h-full items-start">
-        <GameBoard
-          board={board}
-          currentPiece={currentPiece}
-          piecePosition={piecePosition}
-        />
-      </div>
-      <NextPieces nextPieces={nextPieces} />
+
       {isGameOver && <GameOverModal onReset={handleReset} />}
       {isPaused && <GamePauseModal onContinue={handleContinue} />}
     </div>
