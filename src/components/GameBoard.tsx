@@ -34,9 +34,9 @@ export const GameBoard = ({
   );
 
   return (
-    <div className="bg-gradient-to-b from-gray-700 to-gray-900 p-4 rounded-xl shadow-lg border border-gray-600">
-      <div className="bg-gray-800/50 rounded-lg p-3">
-        <div className="grid grid-cols-[repeat(10,minmax(0,45px))] grid-rows-[repeat(15,minmax(0,45px))] bg-gray-900/80 rounded-lg p-1">
+    <div className="bg-gradient-to-b from-gray-700 to-gray-900 p-3 rounded-xl shadow-lg border border-gray-600">
+      <div className="bg-gray-800/50 rounded-lg p-2">
+        <div className="grid grid-cols-[repeat(10,minmax(0,35px))] grid-rows-[repeat(15,minmax(0,35px))] bg-gray-900/80 rounded-lg p-1">
           {finalBoard.map((row, y) =>
             row.map((cell, x) => (
               <div
@@ -47,7 +47,7 @@ export const GameBoard = ({
                 }}
                 key={`${x}-${y}`}
                 className={`
-                  size-11 rounded-sm transition-all
+                  size-8 sm:size-9 rounded-sm transition-all
                   ${
                     cell.value === 1
                       ? `

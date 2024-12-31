@@ -167,13 +167,13 @@ function App() {
     <div className="min-h-screen w-full bg-gradient-to-b from-gray-900 via-purple-900 to-gray-900 overflow-hidden">
       <div className="absolute inset-0 bg-[url('/bg-grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]" />
 
-      <div className="relative flex flex-col lg:flex-row items-center lg:items-start justify-center gap-6 lg:gap-10 p-4 lg:p-8 min-h-screen">
-        <div className="flex flex-col items-center gap-6 lg:gap-10 order-2 lg:order-1">
+      <div className="relative flex flex-col lg:flex-row items-start justify-center gap-4 lg:gap-6 p-2 lg:p-4 min-h-screen">
+        <div className="flex flex-col items-center gap-4 lg:gap-6 order-2 lg:order-1 lg:mt-8">
           <ScoreBoard />
           <GameLevel score={score} level={level} linesCleared={linesCleared} />
         </div>
 
-        <div className="flex items-center justify-center order-1 lg:order-2">
+        <div className="flex items-start justify-center order-1 lg:order-2 lg:mt-8">
           <GameBoard
             board={board}
             currentPiece={currentPiece}
@@ -181,7 +181,7 @@ function App() {
           />
         </div>
 
-        <div className="flex items-center justify-center order-3">
+        <div className="flex items-center justify-center order-3 lg:mt-8">
           <NextPieces nextPieces={nextPieces} />
         </div>
       </div>
