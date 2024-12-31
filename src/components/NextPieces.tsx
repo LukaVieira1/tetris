@@ -4,38 +4,39 @@ export const NextPieces = ({
   nextPieces: { shape: number[][]; color: string }[];
 }) => {
   return (
-    <div className="flex flex-col items-center">
-      <h2 className="text-black text-lg font-bold mb-4">Próximas peças</h2>
-      <div className="relative w-40 border-2 border-black flex flex-col items-center p-4 bg-gray-300">
+    <div className="px-6 py-4 text-2xl font-bold text-center bg-gradient-to-b from-gray-700 to-gray-900 flex flex-col gap-3 rounded-xl shadow-lg border border-gray-600">
+      <h2 className="text-2xl font-bold text-yellow-400 tracking-wider">
+        🎲 Próximas
+      </h2>
+      <div className="flex flex-col items-center justify-center bg-gray-800/50 rounded-lg p-3">
         <div className="flex flex-col gap-4 items-center justify-start w-full">
-          <div className="flex flex-col gap-1 items-center justify-start w-full">
-            {nextPieces.map((piece, index) => (
-              <div
-                key={index}
-                className="grid"
-                style={{
-                  gridTemplateRows: `repeat(${piece.shape.length}, 1fr)`,
-                  gridTemplateColumns: `repeat(${piece.shape[0].length}, 1fr)`,
-                }}
-              >
-                {piece.shape.map((row, y) =>
-                  row.map((cell, x) => (
-                    <div
-                      style={{
-                        backgroundColor: cell !== 0 ? piece.color : "",
-                      }}
-                      key={`${y}-${x}`}
-                      className={`size-4 rounded-[0.25rem] ${
-                        cell !== 0
-                          ? `border border-black shadow-lg`
-                          : "bg-gray-300 "
-                      }`}
-                    />
-                  ))
-                )}
-              </div>
-            ))}
-          </div>
+          {nextPieces.map((piece, index) => (
+            <div
+              key={index}
+              className="grid bg-gray-800/30 p-5 rounded-lg w-full"
+              style={{
+                gridTemplateRows: `repeat(${piece.shape.length}, 1fr)`,
+                gridTemplateColumns: `repeat(${piece.shape[0].length}, 1fr)`,
+                justifyContent: "center",
+              }}
+            >
+              {piece.shape.map((row, y) =>
+                row.map((cell, x) => (
+                  <div
+                    style={{
+                      backgroundColor: cell !== 0 ? piece.color : "",
+                    }}
+                    key={`${y}-${x}`}
+                    className={`size-5 rounded-sm ${
+                      cell !== 0
+                        ? `border border-black/20 shadow-md`
+                        : "bg-transparent"
+                    }`}
+                  />
+                ))
+              )}
+            </div>
+          ))}
         </div>
       </div>
     </div>
