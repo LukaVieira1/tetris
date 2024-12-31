@@ -94,3 +94,18 @@
 ### Fixed
 
 - Reset all game states when reset game
+
+## [0.5.0] - 2024-12-31
+
+### Added
+
+- New Game UI
+- Game over modal
+- Game Board
+- Score Board
+- Next Pieces
+- Pause Game modal
+- Leveling
+
+- Clear lines animations
+  - Added framer motion to clear lines animations
