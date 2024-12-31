@@ -34,7 +34,7 @@ export const GameBoard = ({
   );
 
   return (
-    <div className="grid grid-cols-[repeat(10,minmax(0,45px))] grid-rows-[repeat(15,minmax(0,45px))] border-2 border-black">
+    <div className="grid grid-cols-[repeat(10,minmax(0,45px))] grid-rows-[repeat(15,minmax(0,45px))] border-2 border-black bg-gray-800 rounded-lg p-1">
       {finalBoard.map((row, y) =>
         row.map((cell, x) => (
           <div
@@ -45,10 +45,10 @@ export const GameBoard = ({
             key={`${x}-${y}`}
             className={`size-11 rounded-lg transition-transform duration-200 ${
               cell.value === 0
-                ? "bg-gray-300"
+                ? "bg-black"
                 : cell.value === 1
                 ? `border border-black shadow-lg`
-                : `bg-gray-300 shadow-lg`
+                : `bg-black shadow-lg`
             }`}
           ></div>
         ))
