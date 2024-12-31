@@ -222,26 +222,25 @@ export const mergePieceWithBoard = (
   return newBoard;
 };
 
-export const clearLines = (
-  board: { value: number; color: string }[][]
-): { board: { value: number; color: string }[][]; linesCleared: number } => {
-  let linesCleared = 0;
-  const newBoard = board.filter((row) => {
-    const isFull = row.every((cell) => cell.value !== 0);
-    if (isFull) {
-      linesCleared++;
-      return false;
-    }
-    return true;
-  });
+export const clearLines = (board: { value: number; color: string }[][]) => {
+  const linesToClear = board
+    .map((row, index) => (row.every((cell) => cell.value === 1) ? index : -1))
+    .filter((index) => index !== -1);
 
-  while (newBoard.length < board.length) {
-    newBoard.unshift(
-      Array.from({ length: board[0].length }, () => ({ value: 0, color: "" }))
-    );
+  if (linesToClear.length === 0) {
+    return { board, linesToClear: [], linesCleared: 0 };
   }
 
-  return { board: newBoard, linesCleared };
+  const newBoard = board.filter((_, index) => !linesToClear.includes(index));
+  const emptyLines = Array(linesToClear.length)
+    .fill(null)
+    .map(() => Array(board[0].length).fill({ value: 0, color: "" }));
+
+  return {
+    board: [...emptyLines, ...newBoard],
+    linesToClear,
+    linesCleared: linesToClear.length,
+  };
 };
 
 export const resetGame = () => {

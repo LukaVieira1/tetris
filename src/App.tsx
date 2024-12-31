@@ -43,6 +43,7 @@ function App() {
   const [speed, setSpeed] = useState(1000);
   const [linesCleared, setLinesCleared] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const [clearedLines, setClearedLines] = useState<number[]>([]);
 
   useEffect(() => {
     if (isGameOver || isPaused) return;
@@ -68,30 +69,44 @@ function App() {
       currentPiece,
       piecePosition
     );
-    setBoard(newBoard);
+
     if (isGameOver) {
       setIsGameOver(true);
       saveScoreBoard(score);
-    } else {
-      setCurrentPiece(nextPieces[0]);
-      setNextPieces((prev) => [...prev.slice(1), getRandomPiece()]);
-      setPiecePosition({ x: 4, y: -2 });
-      const { board: clearedBoard, linesCleared: newLinesCleared } =
-        clearLines(newBoard);
+      return;
+    }
 
-      if (newLinesCleared > 0) {
+    const { linesToClear } = clearLines(newBoard);
+
+    if (linesToClear.length > 0) {
+      setBoard(newBoard);
+
+      setClearedLines(linesToClear);
+
+      setTimeout(() => {
+        const { board: clearedBoard } = clearLines(newBoard);
+        setClearedLines([]);
         setBoard(clearedBoard);
-        setScore(score + calculateScore(newLinesCleared));
+        setScore(score + calculateScore(linesToClear.length));
+
         const { level: newLevel, speed: newSpeed } = updateLevel(
-          linesCleared + newLinesCleared,
+          linesCleared + linesToClear.length,
           level,
           speed
         );
+
         setLevel(newLevel);
         setSpeed(newSpeed);
-        setLinesCleared(linesCleared + newLinesCleared);
-      }
+        setLinesCleared(linesCleared + linesToClear.length);
+      }, 500);
+    } else {
+      setBoard(newBoard);
     }
+
+    // Sempre atualizamos a próxima peça após fixar a atual
+    setCurrentPiece(nextPieces[0]);
+    setNextPieces((prev) => [...prev.slice(1), getRandomPiece()]);
+    setPiecePosition({ x: 4, y: -2 });
   }, [
     board,
     isGameOver,
@@ -178,6 +193,7 @@ function App() {
             board={board}
             currentPiece={currentPiece}
             piecePosition={piecePosition}
+            clearedLines={clearedLines}
           />
         </div>
 
