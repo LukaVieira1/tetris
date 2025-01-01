@@ -1,24 +1,29 @@
 import Swal from "sweetalert2";
+import { useTranslation } from "react-i18next";
+
+interface IGamePauseModal {
+  onContinue: () => void;
+  onBackToMenu: () => void;
+}
 
 export const GamePauseModal = ({
   onContinue,
   onBackToMenu,
-}: {
-  onContinue: () => void;
-  onBackToMenu: () => void;
-}) => {
+}: IGamePauseModal) => {
+  const { t } = useTranslation();
+
   const handleContinue = () => {
     onContinue();
   };
 
   const handleBackToMenu = () => {
     Swal.fire({
-      title: "Tem certeza que deseja voltar ao menu?",
-      text: "Você perderá o progresso atual do jogo.",
+      title: t("game.pause.backToMenuConfirm.title"),
+      text: t("game.pause.backToMenuConfirm.text"),
       icon: "warning",
       showCancelButton: true,
-      confirmButtonText: "Sim, voltar ao menu",
-      cancelButtonText: "Cancelar",
+      confirmButtonText: t("game.pause.backToMenuConfirm.confirm"),
+      cancelButtonText: t("game.pause.backToMenuConfirm.cancel"),
       customClass: {
         popup: "bg-gray-800 text-white",
         confirmButton:
@@ -41,10 +46,10 @@ export const GamePauseModal = ({
         <div className="bg-gray-800/50 rounded-lg p-6 space-y-6">
           <div className="space-y-2">
             <h2 className="text-4xl font-bold text-yellow-400 tracking-wider">
-              Pausado
+              {t("game.pause.title")}
             </h2>
             <p className="text-gray-400 text-lg">
-              Para retomar o jogo, pressione a tecla P ou clique no botão abaixo
+              {t("game.pause.description")}
             </p>
           </div>
           <div className="flex flex-col gap-2">
@@ -54,7 +59,7 @@ export const GamePauseModal = ({
               shadow-lg hover:shadow-blue-500/25 border border-blue-600/50"
               onClick={handleContinue}
             >
-              Continuar
+              {t("game.pause.continue")}
             </button>
             <button
               className="w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 
@@ -62,7 +67,7 @@ export const GamePauseModal = ({
               shadow-lg hover:shadow-red-500/25 border border-red-600/50"
               onClick={handleBackToMenu}
             >
-              Voltar ao menu
+              {t("game.pause.mainMenu")}
             </button>
           </div>
         </div>

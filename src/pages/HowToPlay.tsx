@@ -1,6 +1,9 @@
 // Types
 import { ITetrisPages } from "../App";
 
+// Hooks
+import { useTranslation } from "react-i18next";
+
 // Icons
 import {
   FaArrowLeft,
@@ -13,49 +16,51 @@ import { BsArrowReturnLeft } from "react-icons/bs";
 import { MdSpaceBar } from "react-icons/md";
 
 export default function HowToPlay({ onNavigate }: ITetrisPages) {
+  const { t } = useTranslation();
+
   const controls = [
     {
       icon: <FaArrowLeft size={24} />,
-      description: "Move a peça para a esquerda",
+      description: t("howToPlay.controls.moveLeft"),
     },
     {
       icon: <FaArrowRight size={24} />,
-      description: "Move a peça para a direita",
+      description: t("howToPlay.controls.moveRight"),
     },
     {
       icon: <FaArrowDown size={24} />,
-      description: "Acelera a queda da peça",
+      description: t("howToPlay.controls.moveDown"),
     },
     {
       icon: <FaArrowUp size={24} />,
-      description: "Rotaciona a peça",
+      description: t("howToPlay.controls.rotate"),
     },
     {
       icon: <MdSpaceBar size={24} />,
-      description: "Faz a peça cair instantaneamente",
+      description: t("howToPlay.controls.hardDrop"),
     },
     {
       icon: <FaKeyboard size={24} />,
-      description: "Tecla P: Pausa o jogo",
+      description: t("howToPlay.controls.pause"),
     },
   ];
 
   const scoring = [
     {
       lines: 1,
-      points: "100 pontos",
+      points: `100 ${t("howToPlay.scoring.points")}`,
     },
     {
       lines: 2,
-      points: "300 pontos",
+      points: `300 ${t("howToPlay.scoring.points")}`,
     },
     {
       lines: 3,
-      points: "500 pontos",
+      points: `500 ${t("howToPlay.scoring.points")}`,
     },
     {
       lines: 4,
-      points: "800 pontos",
+      points: `800 ${t("howToPlay.scoring.points")}`,
     },
   ];
 
@@ -65,12 +70,14 @@ export default function HowToPlay({ onNavigate }: ITetrisPages) {
         <div className="bg-gray-800/50 rounded-lg p-6 space-y-8">
           <div className="text-center mb-8">
             <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500">
-              Como Jogar
+              {t("howToPlay.title")}
             </h1>
           </div>
 
           <div className="space-y-4">
-            <h2 className="text-2xl font-bold text-blue-400 mb-4">Controles</h2>
+            <h2 className="text-2xl font-bold text-blue-400 mb-4">
+              {t("howToPlay.controls.title")}
+            </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {controls.map((control, index) => (
                 <div
@@ -88,7 +95,7 @@ export default function HowToPlay({ onNavigate }: ITetrisPages) {
 
           <div className="space-y-4">
             <h2 className="text-2xl font-bold text-purple-400 mb-4">
-              Sistema de Pontuação
+              {t("howToPlay.scoring.title")}
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {scoring.map((score, index) => (
@@ -97,7 +104,10 @@ export default function HowToPlay({ onNavigate }: ITetrisPages) {
                   className="flex items-center justify-between bg-gray-900/50 p-4 rounded-lg border border-gray-700"
                 >
                   <span className="text-gray-300">
-                    {score.lines} {score.lines === 1 ? "linha" : "linhas"}
+                    {score.lines}{" "}
+                    {score.lines === 1
+                      ? t("howToPlay.scoring.line")
+                      : t("howToPlay.scoring.lines")}
                   </span>
                   <span className="text-yellow-400 font-bold">
                     {score.points}
@@ -109,14 +119,11 @@ export default function HowToPlay({ onNavigate }: ITetrisPages) {
 
           <div className="space-y-4">
             <h2 className="text-2xl font-bold text-pink-400 mb-4">
-              Sistema de Level
+              {t("howToPlay.level.title")}
             </h2>
             <div className="bg-gray-900/50 p-4 rounded-lg border border-gray-700">
               <p className="text-gray-300">
-                A cada{" "}
-                <span className="text-yellow-400 font-bold">10 linhas</span>{" "}
-                eliminadas, você avança um nível. A velocidade do jogo aumenta a
-                cada nível, tornando o desafio mais emocionante!
+                {t("howToPlay.level.description", { lines: 10 })}
               </p>
             </div>
           </div>
@@ -129,7 +136,7 @@ export default function HowToPlay({ onNavigate }: ITetrisPages) {
               shadow-lg hover:shadow-blue-500/25 border border-blue-600/50"
             >
               <BsArrowReturnLeft size={20} />
-              Voltar ao Menu
+              {t("howToPlay.backToMenu")}
             </button>
           </div>
         </div>
