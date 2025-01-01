@@ -1,6 +1,38 @@
-export const GamePauseModal = ({ onContinue }: { onContinue: () => void }) => {
+import Swal from "sweetalert2";
+
+export const GamePauseModal = ({
+  onContinue,
+  onBackToMenu,
+}: {
+  onContinue: () => void;
+  onBackToMenu: () => void;
+}) => {
   const handleContinue = () => {
     onContinue();
+  };
+
+  const handleBackToMenu = () => {
+    Swal.fire({
+      title: "Tem certeza que deseja voltar ao menu?",
+      text: "Você perderá o progresso atual do jogo.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Sim, voltar ao menu",
+      cancelButtonText: "Cancelar",
+      customClass: {
+        popup: "bg-gray-800 text-white",
+        confirmButton:
+          "bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mr-2",
+        cancelButton:
+          "bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded",
+        title: "text-yellow-400",
+      },
+      buttonsStyling: false,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        onBackToMenu();
+      }
+    });
   };
 
   return (
@@ -15,15 +47,24 @@ export const GamePauseModal = ({ onContinue }: { onContinue: () => void }) => {
               Para retomar o jogo, pressione a tecla P ou clique no botão abaixo
             </p>
           </div>
-
-          <button
-            className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 
+          <div className="flex flex-col gap-2">
+            <button
+              className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 
               text-white font-bold py-3 px-6 rounded-lg transition-all duration-200 
               shadow-lg hover:shadow-blue-500/25 border border-blue-600/50"
-            onClick={handleContinue}
-          >
-            Continuar
-          </button>
+              onClick={handleContinue}
+            >
+              Continuar
+            </button>
+            <button
+              className="w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 
+              text-white font-bold py-3 px-6 rounded-lg transition-all duration-200 
+              shadow-lg hover:shadow-red-500/25 border border-red-600/50"
+              onClick={handleBackToMenu}
+            >
+              Voltar ao menu
+            </button>
+          </div>
         </div>
       </div>
     </div>

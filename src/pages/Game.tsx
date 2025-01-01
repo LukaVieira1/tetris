@@ -201,7 +201,12 @@ export default function Game({ onNavigate }: ITetrisPages) {
       </div>
 
       {isGameOver && <GameOverModal onReset={handleReset} />}
-      {isPaused && <GamePauseModal onContinue={handleContinue} />}
+      {isPaused && (
+        <GamePauseModal
+          onContinue={handleContinue}
+          onBackToMenu={() => onNavigate("menu")}
+        />
+      )}
     </div>
   );
 }
