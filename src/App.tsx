@@ -1,18 +1,20 @@
 import { useState } from "react";
 import Game from "./pages/Game";
 import Menu from "./pages/Menu";
+import HowToPlay from "./pages/HowToPlay";
 
 const pages = {
   game: Game,
   menu: Menu,
+  howToPlay: HowToPlay,
 };
 
 export interface ITetrisPages {
-  onNavigate: (page: "game" | "menu") => void;
+  onNavigate: (page: "game" | "menu" | "howToPlay") => void;
 }
 
 function App() {
-  const [page, setPage] = useState<"game" | "menu">("menu");
+  const [page, setPage] = useState<"game" | "menu" | "howToPlay">("menu");
 
   const CurrentPageComponent = pages[page];
 
