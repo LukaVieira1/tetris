@@ -16,9 +16,9 @@ export default function Menu({ onNavigate }: ITetrisPages) {
     },
   ];
 
-  // const handleLanguageChange = (language: string) => {
-  //   i18n.changeLanguage(language);
-  // };
+  const handleLanguageChange = (language: string) => {
+    i18n.changeLanguage(language);
+  };
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-4">
@@ -45,11 +45,11 @@ export default function Menu({ onNavigate }: ITetrisPages) {
           ))}
         </div>
 
-        {/* <div className="flex justify-center gap-1 mt-6">
+        <div className="flex justify-center gap-1 mt-6">
           <button
             onClick={() => handleLanguageChange("en-US")}
             className={`p-2 rounded-lg hover:bg-gray-600 transition-colors duration-200 text-gray-300 hover:text-white flex items-center gap-2 ${
-              i18n.language === "en-US" ? "bg-gray-600" : ""
+              i18n.language === "en-US" ? "" : "opacity-50"
             }`}
           >
             <img src="/en-us.svg" alt="EN-US" className="w-8 h-8" />
@@ -57,12 +57,12 @@ export default function Menu({ onNavigate }: ITetrisPages) {
           <button
             onClick={() => handleLanguageChange("pt-BR")}
             className={`p-2 rounded-lg hover:bg-gray-600 transition-colors duration-200 text-gray-300 hover:text-white flex items-center gap-2 ${
-              i18n.language === "pt-BR" ? "bg-gray-600" : ""
+              i18n.language === "pt-BR" ? "" : "opacity-50"
             }`}
           >
             <img src="/pt-br.svg" alt="PT-BR" className="w-8 h-8" />
           </button>
-        </div> */}
+        </div>
       </div>
 
       <div className="mt-8 text-gray-500 text-sm flex items-center gap-2">
