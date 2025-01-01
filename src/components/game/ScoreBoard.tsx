@@ -1,4 +1,4 @@
-import { getScoreBoard } from "../utils/gameRules";
+import { getScoreBoard } from "../../utils/gameRules";
 
 export const ScoreBoard = () => {
   const scores = getScoreBoard();
