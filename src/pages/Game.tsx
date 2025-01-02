@@ -1,5 +1,7 @@
 // React
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { BsArrowReturnLeft } from "react-icons/bs";
 
 // Utils
 import {
@@ -27,8 +29,11 @@ import { GamePauseModal } from "../components/game/GamePauseModal";
 
 // Types
 import { ITetrisPages } from "../App";
+import Swal from "sweetalert2";
 
 export default function Game({ onNavigate }: ITetrisPages) {
+  const { t } = useTranslation();
+
   // board state
   const [board, setBoard] = useState(createBoard(10, 15));
   const [currentPiece, setCurrentPiece] = useState(getRandomPiece());
@@ -180,8 +185,45 @@ export default function Game({ onNavigate }: ITetrisPages) {
     setIsPaused(false);
   };
 
+  const handleBackToMenu = () => {
+    setIsPaused(true);
+    Swal.fire({
+      title: t("game.pause.backToMenuConfirm.title"),
+      text: t("game.pause.backToMenuConfirm.text"),
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: t("game.pause.backToMenuConfirm.confirm"),
+      cancelButtonText: t("game.pause.backToMenuConfirm.cancel"),
+      customClass: {
+        popup: "bg-gray-800 text-white",
+        confirmButton:
+          "bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mr-2",
+        cancelButton:
+          "bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded",
+        title: "text-yellow-400",
+      },
+      buttonsStyling: false,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        onNavigate("menu");
+      } else {
+        setIsPaused(false);
+      }
+    });
+  };
+
   return (
     <div className="relative flex flex-col lg:flex-row items-start justify-center gap-4 lg:gap-6 p-2 lg:p-4 min-h-screen">
+      <button
+        onClick={handleBackToMenu}
+        className="absolute top-4 left-4 p-2 rounded-lg bg-gray-800/50 hover:bg-gray-700/50 
+        transition-colors duration-200 text-gray-400 hover:text-white border border-gray-700/50
+        flex items-center gap-2"
+        title={t("game.gameOver.mainMenu")}
+      >
+        <BsArrowReturnLeft size={20} />
+      </button>
+
       <div className="flex flex-col items-center gap-4 lg:gap-6 order-2 lg:order-1 lg:mt-8">
         <ScoreBoard />
         <GameLevel score={score} level={level} linesCleared={linesCleared} />
