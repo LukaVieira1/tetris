@@ -62,6 +62,14 @@ export default function HowToPlay({ onNavigate }: ITetrisPages) {
       lines: 4,
       points: `800 ${t("howToPlay.scoring.points")}`,
     },
+    {
+      icon: <FaArrowDown size={16} />,
+      points: `1 ${t("game.scoreBoard.pointsPerSoftDrop")}`,
+    },
+    {
+      icon: <MdSpaceBar size={24} />,
+      points: `2 ${t("game.scoreBoard.pointsPerHardDrop")}`,
+    },
   ];
 
   return (
@@ -104,10 +112,11 @@ export default function HowToPlay({ onNavigate }: ITetrisPages) {
                   className="flex items-center justify-between bg-gray-900/50 p-4 rounded-lg border border-gray-700"
                 >
                   <span className="text-gray-300">
-                    {score.lines}{" "}
-                    {score.lines === 1
-                      ? t("howToPlay.scoring.line")
-                      : t("howToPlay.scoring.lines")}
+                    {score.lines &&
+                      (score.lines === 1
+                        ? `${score.lines} ${t("howToPlay.scoring.line")}`
+                        : `${score.lines} ${t("howToPlay.scoring.lines")}`)}
+                    {score.icon && score.icon}
                   </span>
                   <span className="text-yellow-400 font-bold">
                     {score.points}
