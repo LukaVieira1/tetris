@@ -2,7 +2,7 @@
 
 A modern implementation of the classic Tetris game, built with React and TypeScript. This project features a sleek design, smooth animations, and responsive controls.
 
-## 🎮 [Live Demo](#) _(coming soon)_
+## 🎮 [Live Demo](https://tetris.lukavieira.tech)
 
 ## ✨ Features
 
