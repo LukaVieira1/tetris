@@ -63,6 +63,8 @@ export const ptBR = {
         noRecords: "Sem recordes ainda",
         position: "{{position}}º",
         points: "pts",
+        pointsPerSoftDrop: "ponto por linha",
+        pointsPerHardDrop: "pontos por linha",
       },
     },
   },

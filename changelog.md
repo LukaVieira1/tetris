@@ -132,3 +132,12 @@ This is the first stable version of the game. Future updates will be focused on 
 - Back to menu button
 
 - README.md
+
+## [1.1.0] - 2025-01-02
+
+### Added
+
+- Points per line dropped
+  - 1 point per soft drop (arrow down)
+  - 2 points per each line in hard drop (space)
+  - added explanation in how to play page

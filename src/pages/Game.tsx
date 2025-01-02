@@ -67,7 +67,7 @@ export default function Game({ onNavigate }: ITetrisPages) {
 
     return () => clearInterval(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [board, isGameOver, score, level, speed, linesCleared, isPaused]);
+  }, [board, isGameOver, level, speed, linesCleared, isPaused]);
 
   useEffect(() => {
     if (!checkCollision(currentPiece.shape, piecePosition, board)) return;
@@ -114,10 +114,10 @@ export default function Game({ onNavigate }: ITetrisPages) {
     setCurrentPiece(nextPieces[0]);
     setNextPieces((prev) => [...prev.slice(1), getRandomPiece()]);
     setPiecePosition({ x: 4, y: -2 });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     board,
     isGameOver,
-    score,
     level,
     speed,
     linesCleared,
@@ -141,8 +141,13 @@ export default function Game({ onNavigate }: ITetrisPages) {
         setPiecePosition(
           movePiece([0, 1], piecePosition, currentPiece.shape, board)
         );
+        setScore(score + 1);
       } else if (event.key === " ") {
-        setPiecePosition(dropPiece(piecePosition, currentPiece.shape, board));
+        const initialY = piecePosition.y;
+        const newPosition = dropPiece(piecePosition, currentPiece.shape, board);
+        setPiecePosition(newPosition);
+        const linesDropped = newPosition.y - initialY;
+        setScore(score + linesDropped * 2);
       } else if (event.key === "ArrowUp") {
         setCurrentPiece({
           shape: rotatePiece(piecePosition, currentPiece.shape, board),
@@ -155,6 +160,7 @@ export default function Game({ onNavigate }: ITetrisPages) {
 
     window.addEventListener("keydown", handleKeyPress);
     return () => window.removeEventListener("keydown", handleKeyPress);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [piecePosition, board, currentPiece, isGameOver, isPaused]);
 
   useEffect(() => {

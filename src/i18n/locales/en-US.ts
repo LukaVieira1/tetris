@@ -63,6 +63,8 @@ export const enUS = {
         noRecords: "No records yet",
         position: "{{position}}th",
         points: "pts",
+        pointsPerSoftDrop: "point per line",
+        pointsPerHardDrop: "points per line ",
       },
     },
   },
