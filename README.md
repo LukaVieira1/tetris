@@ -54,7 +54,7 @@ yarn dev
 
 ## 📝 Changelog
 
-See [CHANGELOG.md](CHANGELOG.md) for a list of changes and version history.
+See [changelog](changelog.md) for a list of changes and version history.
 
 ## 🌐 Internationalization
 
