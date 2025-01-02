@@ -2,19 +2,23 @@ import { useState } from "react";
 import Game from "./pages/Game";
 import Menu from "./pages/Menu";
 import HowToPlay from "./pages/HowToPlay";
+import Splash from "./pages/Splash";
 
 const pages = {
+  splash: Splash,
   game: Game,
   menu: Menu,
   howToPlay: HowToPlay,
 };
 
 export interface ITetrisPages {
-  onNavigate: (page: "game" | "menu" | "howToPlay") => void;
+  onNavigate: (page: "splash" | "game" | "menu" | "howToPlay") => void;
 }
 
 function App() {
-  const [page, setPage] = useState<"game" | "menu" | "howToPlay">("menu");
+  const [page, setPage] = useState<"splash" | "game" | "menu" | "howToPlay">(
+    "splash"
+  );
 
   const CurrentPageComponent = pages[page];
 
