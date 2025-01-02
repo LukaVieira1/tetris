@@ -1,12 +1,16 @@
-export const NextPieces = ({
-  nextPieces,
-}: {
+import { useTranslation } from "react-i18next";
+
+interface INextPieces {
   nextPieces: { shape: number[][]; color: string }[];
-}) => {
+}
+
+export const NextPieces = ({ nextPieces }: INextPieces) => {
+  const { t } = useTranslation();
+
   return (
     <div className="px-6 py-4 text-2xl font-bold text-center bg-gradient-to-b from-gray-700 to-gray-900 flex flex-col gap-3 rounded-xl shadow-lg border border-gray-600">
       <h2 className="text-2xl font-bold text-yellow-400 tracking-wider">
-        🎲 Próximas
+        🎲 {t("game.nextPieces.title")}
       </h2>
       <div className="flex flex-col items-center justify-center bg-gray-800/50 rounded-lg p-3">
         <div className="flex flex-col gap-4 items-center justify-start w-full">

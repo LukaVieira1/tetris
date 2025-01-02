@@ -109,3 +109,26 @@
 
 - Clear lines animations
   - Added framer motion to clear lines animations
+
+## [1.0.0] - 2025-01-02
+
+This is the first stable version of the game. Future updates will be focused on improving the game and adding new features. This future features includes: game sounds, points when pressed space or key down, better animations, and more.
+
+### Added
+
+- Intro animation
+
+- Menu page
+
+  - How to play page
+  - Game page
+
+- Multi language support
+
+  - i18n for translations
+  - Language detector
+  - Language change
+
+- Back to menu button
+
+- README.md

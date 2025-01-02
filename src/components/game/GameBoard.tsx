@@ -2,7 +2,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   calculateFinalPosition,
   mergePieceWithBoard,
-} from "../utils/gameRules";
+} from "../../utils/gameRules";
 
 interface IGameBoard {
   board: { value: number; color: string }[][];

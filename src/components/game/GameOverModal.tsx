@@ -1,7 +1,11 @@
-export const GameOverModal = ({ onReset }: { onReset: () => void }) => {
-  const handleReset = () => {
-    onReset();
-  };
+import { useTranslation } from "react-i18next";
+
+interface IGameOverModal {
+  onReset: () => void;
+}
+
+export const GameOverModal = ({ onReset }: IGameOverModal) => {
+  const { t } = useTranslation();
 
   return (
     <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center">
@@ -9,18 +13,20 @@ export const GameOverModal = ({ onReset }: { onReset: () => void }) => {
         <div className="bg-gray-800/50 rounded-lg p-6 space-y-6">
           <div className="space-y-2">
             <h2 className="text-4xl font-bold text-red-500 tracking-wider">
-              Game Over!
+              {t("game.gameOver.title")}
             </h2>
-            <p className="text-gray-400 text-lg">Sua partida acabou!</p>
+            <p className="text-gray-400 text-lg">
+              {t("game.gameOver.endGame")}
+            </p>
           </div>
 
           <button
             className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 
-              text-white font-bold py-3 px-6 rounded-lg transition-all duration-200 
-              shadow-lg hover:shadow-blue-500/25 border border-blue-600/50"
-            onClick={handleReset}
+            text-white font-bold py-3 px-6 rounded-lg transition-all duration-200 
+            shadow-lg hover:shadow-blue-500/25 border border-blue-600/50"
+            onClick={onReset}
           >
-            Jogar Novamente
+            {t("game.gameOver.restart")}
           </button>
         </div>
       </div>
