@@ -141,3 +141,11 @@ This is the first stable version of the game. Future updates will be focused on 
   - 1 point per soft drop (arrow down)
   - 2 points per each line in hard drop (space)
   - added explanation in how to play page
+
+## [1.2.0] - 2025-01-03
+
+### Added
+
+- Cypress tests
+  - Added e2e tests for the game
+  - Added e2e tests for the menu
