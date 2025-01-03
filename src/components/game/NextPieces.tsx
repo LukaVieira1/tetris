@@ -8,7 +8,10 @@ export const NextPieces = ({ nextPieces }: INextPieces) => {
   const { t } = useTranslation();
 
   return (
-    <div className="px-6 py-4 text-2xl font-bold text-center bg-gradient-to-b from-gray-700 to-gray-900 flex flex-col gap-3 rounded-xl shadow-lg border border-gray-600">
+    <div
+      data-cy="next-pieces"
+      className="px-6 py-4 text-2xl font-bold text-center bg-gradient-to-b from-gray-700 to-gray-900 flex flex-col gap-3 rounded-xl shadow-lg border border-gray-600"
+    >
       <h2 className="text-2xl font-bold text-yellow-400 tracking-wider">
         🎲 {t("game.nextPieces.title")}
       </h2>

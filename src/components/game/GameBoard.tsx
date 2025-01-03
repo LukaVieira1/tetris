@@ -37,7 +37,11 @@ export const GameBoard = ({
   );
 
   return (
-    <div className="bg-gradient-to-b from-gray-700 to-gray-900 p-3 rounded-xl shadow-lg border border-gray-600">
+    <div
+      data-cy="game-board"
+      tabIndex={0}
+      className="bg-gradient-to-b from-gray-700 to-gray-900 p-3 rounded-xl shadow-lg border border-gray-600"
+    >
       <div className="bg-gray-800/50 rounded-lg p-2">
         <div className="grid grid-cols-[repeat(10,minmax(0,35px))] grid-rows-[repeat(15,minmax(0,35px))] bg-gray-900/80 rounded-lg p-1">
           <AnimatePresence>
@@ -45,20 +49,12 @@ export const GameBoard = ({
               row.map((cell, x) => (
                 <motion.div
                   key={`${x}-${y}`}
-                  initial={cell.value === 1 ? { y: -50 } : {}}
+                  data-cy={`cell-${x}-${y}`}
                   animate={{
                     scale: clearedLines.includes(y) ? 0 : 1,
-                    y: 0,
                     transition: {
-                      duration: clearedLines.includes(y)
-                        ? 0.3
-                        : cell.value === 1
-                        ? 0.3
-                        : 0,
+                      duration: clearedLines.includes(y) ? 0.3 : 0,
                       delay: clearedLines.includes(y) ? x * 0.05 : 0,
-                      type: "spring",
-                      stiffness: 200,
-                      damping: 20,
                     },
                   }}
                   style={{
