@@ -65,10 +65,19 @@ The game supports multiple languages:
 
 Language is automatically detected based on browser settings and can be changed in-game.
 
-## 🧪 Running Tests _(coming soon)_
+## 🧪 Running Tests
+
+Make sure to run the development server before running the tests.
+You can run the tests with the following command:
 
 ```bash
-yarn test
+yarn cy:run
+```
+
+Or you can run the tests in interactive mode with the following command:
+
+```bash
+yarn cy:open
 ```
 
 ## 📦 Building for Production
