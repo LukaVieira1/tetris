@@ -47,6 +47,7 @@ export default function Menu({ onNavigate }: ITetrisPages) {
 
         <div className="flex justify-center gap-1 mt-6">
           <button
+            data-cy="lang-en"
             onClick={() => handleLanguageChange("en-US")}
             className={`p-2 rounded-lg hover:bg-gray-600 transition-colors duration-200 text-gray-300 hover:text-white flex items-center gap-2 ${
               i18n.language === "en-US" ? "" : "opacity-50"
@@ -55,6 +56,7 @@ export default function Menu({ onNavigate }: ITetrisPages) {
             <img src="/en-us.svg" alt="EN-US" className="w-8 h-8" />
           </button>
           <button
+            data-cy="lang-pt-br"
             onClick={() => handleLanguageChange("pt-BR")}
             className={`p-2 rounded-lg hover:bg-gray-600 transition-colors duration-200 text-gray-300 hover:text-white flex items-center gap-2 ${
               i18n.language === "pt-BR" ? "" : "opacity-50"

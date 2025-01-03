@@ -10,7 +10,10 @@ export const GameLevel = ({ score, level, linesCleared }: IGameLevel) => {
   const { t } = useTranslation();
 
   return (
-    <div className="px-12 py-4 text-2xl font-bold text-center bg-gradient-to-b from-gray-700 to-gray-900 flex flex-col gap-2 rounded-xl shadow-lg border border-gray-600">
+    <div
+      data-cy="game-level"
+      className="px-12 py-4 text-2xl font-bold text-center bg-gradient-to-b from-gray-700 to-gray-900 flex flex-col gap-2 rounded-xl shadow-lg border border-gray-600"
+    >
       <div className="flex flex-col gap-1">
         <span className="text-gray-400 text-xl">{t("game.level.score")}</span>
         <span className="text-yellow-300 font-mono text-4xl">{score}</span>
