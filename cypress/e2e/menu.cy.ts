@@ -1,7 +1,7 @@
 describe("Menu Page", () => {
   beforeEach(() => {
     cy.visit("/");
-    cy.wait(2500);
+    cy.waitForSplashScreen();
   });
 
   it("should display the menu correctly", () => {
