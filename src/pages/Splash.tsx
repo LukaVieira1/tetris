@@ -66,7 +66,7 @@ export default function Splash({ onNavigate }: ITetrisPages) {
               className="text-center"
             >
               <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-transparent bg-clip-text">
-                lukavieira.tech
+                lukavieira.com
               </h1>
             </motion.div>
           </div>
